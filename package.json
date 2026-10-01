@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "CineRate - Single Page Application (Frontend)",
   "scripts": {
-    "start": "npx serve ."
+    "start": "serve -s ."
   },
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "serve": "^14.2.4"
+  }
 }

@@ -1,8 +1,10 @@
 // Basis-URL des BFF (Backend-for-Frontend). Die SPA spricht NUR mit dem BFF,
 // nie direkt mit dem Kern-Backend oder TMDB.
-// Lokal: laufendes BFF (Standardport 4000). Nach dem Deployment auf die
-// echte BFF-URL anpassen (z. B. "https://cinerate-bff.herokuapp.com").
-const BFF_BASE_URL = "http://localhost:4000";
+// Lokal: laufendes BFF (Standardport 4000), auf Heroku die echte BFF-URL.
+const BFF_BASE_URL =
+  location.hostname === "localhost" || location.hostname === "127.0.0.1"
+    ? "http://localhost:4000"
+    : "https://cinerate-bff-be82e8357e5c.herokuapp.com";
 
 fetch(`${BFF_BASE_URL}/bff/status`)
   .then((res) => res.json())
