@@ -1,0 +1,9 @@
+{
+  "name": "cinerate-spa",
+  "version": "1.0.0",
+  "description": "CineRate - Single Page Application (Frontend)",
+  "scripts": {
+    "start": "npx serve ."
+  },
+  "license": "ISC"
+}
