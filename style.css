@@ -1,10 +1,19 @@
-body {
-  font-family: Arial, sans-serif;
-  max-width: 600px;
-  margin: 60px auto;
-  text-align: center;
+/* Farben und Maße als Variablen --> Wenn man hier einen Wert ändert, wird er überall
+  verändert, wo var(--varName) verwendet wird */
+
+:root {
+  --farbe-akzent: #3C9B7A;          /* Seegrün - Für Rahmen */
+  --farbe-akzent-dunkel: #2E7A5F;   /* dunkleres Grün - Buttons und Links  */
+  --farbe-mint: #BFE7D6;            /* helle Flächen */
+  --farbe-hintergrund: #F3FBF7;     /* Seitenhintergrund */
+  --farbe-sand: #E2D2B6;            /* Footer */
+  --farbe-text: #4B635C;            /* Schrift und Header */
+  --farbe-weiss: #FFFFFF;
+  --farbe-fehler: #B3412F;          /* Fehlermeldungen */
+  --radius: 10px;                     /* Rundung der Ecken */
+  --max-breite: 1100px;               /* maximale Breite des Inhalts */
 }
 
-h1 {
-  color: #222;
+*{
+  box-sizing: border-box;
 }
