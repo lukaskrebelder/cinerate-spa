@@ -1,7 +1,7 @@
 import { zeigeStartseite} from "./views/startseite.js";
 
 // Der Router entscheidet anhand der Adresse, welche Ansicht gezeigt wird.
-// Die Adresse steht hinter dem # (zB. index.html#anmelden)
+// Die Adresse steht hinter dem # (zB. index.html#/anmelden)
 // --> Die Seite wird also beim Wechsel nicht neu geladen, sondern nur der Inhalt von
 //     <main> getauscht
 
@@ -19,8 +19,8 @@ function aktuellerPfad() {
     return hash === "" ? "/" : hash;        //--> BEDINGUNG ? Wert wenn WAHR : Wert wenn FALSCH
 }
 
-// Anscht für unbekannte Adressen.
-//--> Es werden DOM-Elemente einzeln erzeugt und ihr Text mit textContainer gesetzt
+// Ansicht für unbekannte Adressen.
+//--> Es werden DOM-Elemente einzeln erzeugt und ihr Text mit textContent gesetzt
 function zeigeNichtGefunden(container){
     const ueberschrift = document.createElement("h1");
     ueberschrift.textContent = "Seite nicht gefunden";
