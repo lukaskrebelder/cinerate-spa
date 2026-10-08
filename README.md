@@ -19,7 +19,7 @@ npm start
 Läuft dann z. B. auf [http://localhost:3000](http://localhost:3000)
 (abhängig vom genutzten Static-Server).
 
-Die Basis-URL des BFF wird in `script.js` über `BFF_BASE_URL` konfiguriert.
+Die Basis-URL des BFF wird in `js/api.js` über `BFF_BASE_URL` konfiguriert.
 
 ## Tech-Stack
 
