@@ -6,7 +6,8 @@
 // innterHTML ist hier unkritisch, da der Text fest im Code steht. Sobald jedoch Texte von Nutzern 
 // oder vom BFF kommen (bspw. Filmtitel/Kommentare), muss stattdessen "textContent" genutzt werden
 // --> wichtig, um Schadcode zu verhindern!
-export function zeigeStartseite(container){
+
+export function zeigeStartseite(container){ //--> Funktion ist der Platz für die Startseite
       container.innerHTML = `
     <section class="hero">
       <h1>Willkommen bei CineRate</h1>
@@ -15,3 +16,6 @@ export function zeigeStartseite(container){
     </section>
   `;
 }
+
+//--> Inhalt wird im späteren Verlauf noch verändert/erweitert. Zum Beispiel werden angemeldeten Nutzern dann
+//    auf der Startseite Empfehlungen angezeigt oder neue Filme
