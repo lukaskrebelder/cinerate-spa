@@ -3,7 +3,7 @@
 // --> Funktion, die ihren Inhalt in den übergebenen Container schreibt
 // --> Der Router in router.js ruft sie dann auf, wenn die Adresse passt
 
-// innterHTML ist hier unkritisch, da der Text fest im Code steht. Sobald jedoch Texte von Nutzern 
+// innerHTML ist hier unkritisch, da der Text fest im Code steht. Sobald jedoch Texte von Nutzern 
 // oder vom BFF kommen (bspw. Filmtitel/Kommentare), muss stattdessen "textContent" genutzt werden
 // --> wichtig, um Schadcode zu verhindern!
 
