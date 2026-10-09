@@ -2,8 +2,10 @@
   "name": "cinerate-spa",
   "version": "1.0.0",
   "description": "CineRate - Single Page Application (Frontend)",
+  "type": "module",
   "scripts": {
-    "start": "serve -s ."
+    "start": "serve -s .",
+    "test": "node --test"
   },
   "license": "ISC",
   "dependencies": {
