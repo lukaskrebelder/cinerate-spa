@@ -1,7 +1,7 @@
 // Einstiegspunkt der SPA. Wird von index.html als Modul geladen.
 //--> Verknüpfung von Navigation (Router) und echtem Datencheck, also ob der Server bzw. BFF erreichbar ist
 import { holeStatus } from "./api.js";
-import { starteRouter } from "./router.js";
+import { starteRouter, zeigeAnsicht } from "./router.js";
 import { loescheToken } from "./auth.js";
 
 // Zeigt die passende Ansicht und reagiert auf Adressänderungen.
