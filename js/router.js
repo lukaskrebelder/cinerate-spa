@@ -1,4 +1,5 @@
 import { zeigeStartseite} from "./views/startseite.js";
+import { zeigeNavigation } from "./navigation.js";
 
 // Der Router entscheidet anhand der Adresse, welche Ansicht gezeigt wird.
 // Die Adresse steht hinter dem # (zB. index.html#/anmelden)
@@ -55,6 +56,9 @@ function markiereAktivenLink(pfad) {
 export function zeigeAnsicht() {
   const container = document.getElementById("app");
   const pfad = aktuellerPfad();
+
+  zeigeNavigation(); //--> Menü wird passend zum Anmeldestatus aufgebaut
+  
   // ?? nimmt die rechte Seite, wenn links nichts gefunden wurde (undefined)
   const ansicht = routen[pfad] ?? zeigeNichtGefunden;   //--> In routen sind alle Pfäde, Pfad wird nun abgeglichen mit denen in Routen
   ansicht(container);                                   //--> Wenn gefunden, dann wird entsprechende Seite angezeigt
