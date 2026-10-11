@@ -38,3 +38,15 @@ export function isValidRegistration(data) {
     isValidPassword(data.password)
   );
 }
+
+// Sammelt alle Fehler eines Registrierungsformular in Form von verständlichen Texten
+// Ist die Liste leer, so bedeutet das, dass die Eingabe in Ordnung ist
+// !! Dennoch wird die Eingabe vom Backend nochmal geprüft !!
+export function findeRegistrierungsfehler(daten) {
+  const fehler = [];
+  if (!isNonEmptyText(daten?.firstName)) fehler.push("Bitte gib deinen Vornamen ein.");
+  if (!isNonEmptyText(daten?.lastName)) fehler.push("Bitte gib deinen Nachnamen ein.");
+  if (!isValidEmail(normalizeEmail(daten?.email))) fehler.push("Bitte gib eine gültige E-Mail-Adresse ein.");
+  if (!isValidPassword(daten?.password)) fehler.push("Das Passwort muss mindestens 8 Zeichen lang sein.");
+  return fehler;
+}
