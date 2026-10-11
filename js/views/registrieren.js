@@ -3,7 +3,7 @@
 import { registriereNutzer } from "../api.js";
 import { findeRegistrierungsfehler } from "../validierung.js";
 
-// Übersetzt den Statuscode eines Statuscodes in einen deutschen Text für den Nutzer.
+// Übersetzt den Statuscode einer Fehlerantwort in einen deutschen Text für den Nutzer.
 // Die Texte des Servers sind englisch, deshalb wird nach dem Statuscode entschieden.
 export function uebersetzeFehler(status) {
   if (status === 400) return "Bitte prüfe deine Eingaben.";

@@ -1,4 +1,4 @@
-// Alle Aufrufe an das BFF laufen über Api.js
+// Alle Aufrufe an das BFF laufen über api.js
 // Das SPA spricht nur mit dem BFF, nie direkt mit dem Backend oder der TMDB
 
 import { holeToken } from "./auth.js";

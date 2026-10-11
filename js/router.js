@@ -11,7 +11,7 @@ import { zeigeRegistrierung } from "./views/registrieren.js";
 // const = Konstante --> Variable, dessen Wert nicht mehr geändert werden kann
 const routen = {
     "/": zeigeStartseite,
-    "/registrieren": zeigeRegistrierung
+    "/registrieren": zeigeRegistrierung,
 };
 
 // Liest die aktuelle Adresse bzw. Unterseite, auf der sich der Nutzer aktuell befindet
