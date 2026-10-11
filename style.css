@@ -194,3 +194,27 @@ input:focus-visible {
     padding: 1.5rem 1rem;
   }
 }
+
+/* Layout unt Style für das Registrierungsformular */
+
+
+/* Button über die ganze Breite des Formulars */
+.formular .button {
+  width: 100%;
+  margin-top: 1.25rem;
+}
+
+.formular .button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Bestätigung nach erfolgreicher Registrierung */
+.erfolg {
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  background: var(--farbe-mint);
+  border-radius: var(--radius);
+  text-align: center;
+}
