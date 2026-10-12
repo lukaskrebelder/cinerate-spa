@@ -8,6 +8,7 @@ import {
   isValidPassword,
   isNonEmptyText,
   isValidRegistration,
+  findeRegistrierungsfehler,
 } from "../js/validierung.js";
 
 //--> normalizeEmail
@@ -110,4 +111,48 @@ test("isValidRegistration lehnt fehlende Daten ab", () => {
   assert.strictEqual(isValidRegistration(null), false);
   assert.strictEqual(isValidRegistration(undefined), false);
   assert.strictEqual(isValidRegistration({}), false);
+});
+
+
+//--> findeRegistrierungsfehler 
+
+test("findeRegistrierungsfehler liefert bei gültigen Daten eine leere Liste", () => {
+  assert.deepStrictEqual(findeRegistrierungsfehler(gueltig), []);
+});
+
+// firstname wird mit "" überschrieben, sodass es für den Test keinen Vornamen gibt
+test("findeRegistrierungsfehler meldet fehlenden Vornamen", () => {
+  const fehler = findeRegistrierungsfehler({ ...gueltig, firstName: "" });  // "..." = Spreadoperator
+  assert.deepStrictEqual(fehler, ["Bitte gib deinen Vornamen ein."]);
+});
+
+test("findeRegistrierungsfehler meldet fehlenden Nachnamen", () => {
+  const fehler = findeRegistrierungsfehler({ ...gueltig, lastName: "   " });
+  assert.deepStrictEqual(fehler, ["Bitte gib deinen Nachnamen ein."]);
+});
+
+test("findeRegistrierungsfehler meldet ungültige E-Mail", () => {
+  const fehler = findeRegistrierungsfehler({ ...gueltig, email: "kein-email" });
+  assert.deepStrictEqual(fehler, ["Bitte gib eine gültige E-Mail-Adresse ein."]);
+});
+
+test("findeRegistrierungsfehler meldet zu kurzes Passwort (7 Zeichen)", () => {
+  const fehler = findeRegistrierungsfehler({ ...gueltig, password: "1234567" });
+  assert.deepStrictEqual(fehler, ["Das Passwort muss mindestens 8 Zeichen lang sein."]);
+});
+
+test("findeRegistrierungsfehler sammelt mehrere Fehler", () => {
+  const fehler = findeRegistrierungsfehler({ ...gueltig, firstName: "", password: "123" });
+  assert.strictEqual(fehler.length, 2);
+});
+
+test("findeRegistrierungsfehler meldet bei fehlenden Daten alle vier Fehler", () => {
+  assert.strictEqual(findeRegistrierungsfehler(undefined).length, 4);
+  assert.strictEqual(findeRegistrierungsfehler({}).length, 4);
+});
+
+test("findeRegistrierungsfehler stimmt mit isValidRegistration überein", () => {
+  assert.strictEqual(findeRegistrierungsfehler(gueltig).length === 0, isValidRegistration(gueltig));
+  const ungueltig = { ...gueltig, email: "x" };
+  assert.strictEqual(findeRegistrierungsfehler(ungueltig).length === 0, isValidRegistration(ungueltig));
 });
