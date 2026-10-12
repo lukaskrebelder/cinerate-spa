@@ -67,3 +67,16 @@ export function registriereNutzer(daten){
 //--> "/users" = Zieladresse am Server
 //--> POST = HTTP-POST, signalisiert, dass neue Daten auf den Server hinzugefügt und dauerhaft gespeichert werden sollen
 //--> daten = die eigentlichen Informationen, die an den Server geschickt und unter /users gespeichert werden
+
+
+
+// Anmeldung (US-2): POST /bff/auth. Erwartet email und password, liefert { token }.
+export function meldeAn(daten) {
+  return anfrage("/auth", { methode: "POST", daten });
+}
+
+// Abmeldung (US-2): DELETE /bff/auth. Das Token geht automatisch im Header mit,
+// das Backend beendet damit die Sitzung.
+export function meldeAb() {
+  return anfrage("/auth", { methode: "DELETE" });
+}
