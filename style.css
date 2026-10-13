@@ -216,3 +216,11 @@ input:focus-visible {
   border-radius: var(--radius);
   text-align: center;
 }
+
+
+/* Hinweis unter dem Formular, z. B. "Noch kein Konto?" */
+.formular-hinweis {
+  margin: 1.25rem 0 0;
+  text-align: center;
+  font-size: 0.95rem;
+}
