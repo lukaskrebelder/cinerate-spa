@@ -50,3 +50,14 @@ export function findeRegistrierungsfehler(daten) {
   if (!isValidPassword(daten?.password)) fehler.push("Das Passwort muss mindestens 8 Zeichen lang sein.");
   return fehler;
 }
+
+
+// Sammelt die Fehler eines Anmeldeformulars als verständliche Texte.
+// Es wird nur geprüft, ob beide Felder ausgefüllt sind. Ob E-Mail und Passwort stimmen,
+// entscheidet das Backend (mit derselben Meldung für beide Fälle).
+export function findeAnmeldefehler(daten) {
+  const fehler = [];
+  if (!isNonEmptyText(daten?.email)) fehler.push("Bitte gib deine E-Mail-Adresse ein.");
+  if (!isNonEmptyText(daten?.password)) fehler.push("Bitte gib dein Passwort ein.");
+  return fehler;
+}

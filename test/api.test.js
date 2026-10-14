@@ -1,7 +1,8 @@
 // Unit-Tests für die BFF-Aufrufe aus js/api.js (US-2).
 import test from "node:test";
 import assert from "node:assert";
-import { anfrage, registriereNutzer, ApiFehler } from "../js/api.js";
+import { anfrage, registriereNutzer, meldeAn, meldeAb, ApiFehler } from "../js/api.js";
+import { speichereToken } from "../js/auth.js";
 
 // Ersetzt fetch für einen Test durch eine eigene Funktion und merkt sich den Aufruf.
 // Nach dem Test wird das echte fetch wiederhergestellt.
@@ -121,4 +122,65 @@ test("registriereNutzer sendet POST an /bff/users", async () => {
       assert.strictEqual(ergebnis.userId, "u_1");
     }
   );
+});
+
+
+//--> meldeAn 
+
+test("meldeAn sendet POST an /bff/auth und liefert das Token", async () => {
+  await mitFetch(
+    () => antwort(200, { token: "abc123" }),
+    async (aufrufe) => {
+      const daten = { email: "max@example.com", password: "geheim123" };
+      const ergebnis = await meldeAn(daten);
+      assert.ok(aufrufe[0].url.endsWith("/bff/auth"));
+      assert.strictEqual(aufrufe[0].optionen.method, "POST");
+      assert.deepStrictEqual(JSON.parse(aufrufe[0].optionen.body), daten);
+      assert.strictEqual(ergebnis.token, "abc123");
+    }
+  );
+});
+
+test("meldeAn wirft bei falschen Zugangsdaten einen ApiFehler mit Status 401", async () => {
+  await mitFetch(
+    () => antwort(401, { message: "Email or password is incorrect." }),
+    async () => {
+      await assert.rejects(meldeAn({ email: "x@example.com", password: "falsch" }), (fehler) => {
+        assert.ok(fehler instanceof ApiFehler);
+        assert.strictEqual(fehler.status, 401);
+        return true;
+      });
+    }
+  );
+});
+
+//--> meldeAb 
+
+test("meldeAb sendet DELETE an /bff/auth mit dem Token im Header", async () => {
+  // Ersatz für localStorage, damit holeToken() in Node ein Token findet
+  const speicher = new Map();
+  const original = Object.getOwnPropertyDescriptor(globalThis, "localStorage");
+  Object.defineProperty(globalThis, "localStorage", {
+    configurable: true,
+    value: {
+      getItem: (k) => (speicher.has(k) ? speicher.get(k) : null),
+      setItem: (k, v) => speicher.set(k, String(v)),
+      removeItem: (k) => speicher.delete(k),
+    },
+  });
+  try {
+    speichereToken("abc123");
+    await mitFetch(
+      () => antwort(200, { message: "Logout successful." }),
+      async (aufrufe) => {
+        await meldeAb();
+        assert.ok(aufrufe[0].url.endsWith("/bff/auth"));
+        assert.strictEqual(aufrufe[0].optionen.method, "DELETE");
+        assert.strictEqual(aufrufe[0].optionen.headers.Authorization, "Bearer abc123");
+      }
+    );
+  } finally {
+    if (original) Object.defineProperty(globalThis, "localStorage", original);
+    else delete globalThis.localStorage;
+  }
 });

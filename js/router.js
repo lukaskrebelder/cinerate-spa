@@ -1,6 +1,7 @@
 import { zeigeStartseite} from "./views/startseite.js";
 import { zeigeNavigation } from "./navigation.js";
 import { zeigeRegistrierung } from "./views/registrieren.js";
+import { zeigeAnmeldung } from "./views/anmelden.js";
 
 // Der Router entscheidet anhand der Adresse, welche Ansicht gezeigt wird.
 // Die Adresse steht hinter dem # (zB. index.html#/anmelden)
@@ -12,6 +13,7 @@ import { zeigeRegistrierung } from "./views/registrieren.js";
 const routen = {
     "/": zeigeStartseite,
     "/registrieren": zeigeRegistrierung,
+    "/anmelden": zeigeAnmeldung,
 };
 
 // Liest die aktuelle Adresse bzw. Unterseite, auf der sich der Nutzer aktuell befindet
@@ -72,3 +74,5 @@ export function starteRouter() {
   window.addEventListener("hashchange", zeigeAnsicht);
   zeigeAnsicht();
 }
+
+

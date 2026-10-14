@@ -9,6 +9,7 @@ import {
   isNonEmptyText,
   isValidRegistration,
   findeRegistrierungsfehler,
+  findeAnmeldefehler,
 } from "../js/validierung.js";
 
 //--> normalizeEmail
@@ -155,4 +156,29 @@ test("findeRegistrierungsfehler stimmt mit isValidRegistration überein", () => 
   assert.strictEqual(findeRegistrierungsfehler(gueltig).length === 0, isValidRegistration(gueltig));
   const ungueltig = { ...gueltig, email: "x" };
   assert.strictEqual(findeRegistrierungsfehler(ungueltig).length === 0, isValidRegistration(ungueltig));
+});
+
+
+//--> findeAnmeldefehler
+
+test("findeAnmeldefehler liefert bei ausgefüllten Feldern eine leere Liste", () => {
+  assert.deepStrictEqual(
+    findeAnmeldefehler({ email: "max@example.com", password: "geheim123" }),
+    []
+  );
+});
+
+test("findeAnmeldefehler meldet fehlende E-Mail", () => {
+  const fehler = findeAnmeldefehler({ email: "  ", password: "geheim123" });
+  assert.deepStrictEqual(fehler, ["Bitte gib deine E-Mail-Adresse ein."]);
+});
+
+test("findeAnmeldefehler meldet fehlendes Passwort", () => {
+  const fehler = findeAnmeldefehler({ email: "max@example.com", password: "" });
+  assert.deepStrictEqual(fehler, ["Bitte gib dein Passwort ein."]);
+});
+
+test("findeAnmeldefehler meldet bei fehlenden Daten beide Fehler", () => {
+  assert.strictEqual(findeAnmeldefehler(undefined).length, 2);
+  assert.strictEqual(findeAnmeldefehler({}).length, 2);
 });
