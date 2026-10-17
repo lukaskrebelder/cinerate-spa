@@ -3,6 +3,7 @@
 import { meldeAn } from "../api.js";
 import { speichereToken } from "../auth.js";
 import { findeAnmeldefehler } from "../validierung.js";
+import { holeHinweis } from "../zugriff.js";
 
 // Übersetzt den Statuscode einer Fehlerantwort in einen deutschen Text für den Nutzer.
 // Bei 401 steht absichtlich nicht, ob die E-Mail oder das Passwort falsch war.
@@ -20,6 +21,7 @@ export function zeigeAnmeldung(container) {
   container.innerHTML = `
     <form class="formular" id="anmeldung" novalidate>
       <h1>Anmelden</h1>
+      <div class="hinweis" id="hinweis" role="status" hidden></div>
       <div class="fehler" id="fehler" role="alert" hidden></div>
 
       <label for="email">E-Mail</label>
@@ -37,6 +39,14 @@ export function zeigeAnmeldung(container) {
   const fehlerBox = container.querySelector("#fehler");
   const knopf = formular.querySelector("button");
   const passwortFeld = formular.querySelector("#passwort");
+  
+  // Hinweis von einer anderen Seite, z. B. "Deine Sitzung ist abgelaufen" (erscheint nur einmal)
+  const hinweis = holeHinweis();
+  if (hinweis !== null) {
+    const hinweisBox = container.querySelector("#hinweis");
+    hinweisBox.textContent = hinweis;   // textContent, weil der Text nie als HTML gelten soll
+    hinweisBox.hidden = false;
+  }
 
   function zeigeFehler(text) {
     fehlerBox.textContent = text;   // textContent, weil der Text nie als HTML gelten soll
