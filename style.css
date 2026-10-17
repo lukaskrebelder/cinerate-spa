@@ -217,10 +217,18 @@ input:focus-visible {
   text-align: center;
 }
 
-
 /* Hinweis unter dem Formular, z. B. "Noch kein Konto?" */
 .formular-hinweis {
   margin: 1.25rem 0 0;
   text-align: center;
   font-size: 0.95rem;
+}
+
+/* Hinweise, die keine Fehler sind, zB. "Deine Sitzung ist abgelaufen" */
+.hinweis {
+  margin: 1rem 0 0;
+  padding: 0.6rem 0.75rem;
+  border-left: 4px solid var(--farbe-akzent);
+  background: var(--farbe-mint);
+  color: var(--farbe-text);
 }
