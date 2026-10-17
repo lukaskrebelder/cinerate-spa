@@ -2,6 +2,8 @@ import { zeigeStartseite} from "./views/startseite.js";
 import { zeigeNavigation } from "./navigation.js";
 import { zeigeRegistrierung } from "./views/registrieren.js";
 import { zeigeAnmeldung } from "./views/anmelden.js";
+import { istAngemeldet } from "./auth.js";
+import { pruefeZugriff, setzeHinweis, HINWEIS_ANMELDUNG_NOETIG } from "./zugriff.js";
 
 // Der Router entscheidet anhand der Adresse, welche Ansicht gezeigt wird.
 // Die Adresse steht hinter dem # (zB. index.html#/anmelden)
@@ -10,10 +12,12 @@ import { zeigeAnmeldung } from "./views/anmelden.js";
 
 // Neue Ansichten werden hier eingetragen:
 // const = Konstante --> Variable, dessen Wert nicht mehr geändert werden kann
+// geschuetzt: true --> nur für angemeldete Nutzer, 
+// nurGaeste: true --> nur für Nutzer ohne Anmeldung
 const routen = {
-    "/": zeigeStartseite,
-    "/registrieren": zeigeRegistrierung,
-    "/anmelden": zeigeAnmeldung,
+    "/": { ansicht: zeigeStartseite },
+    "/registrieren": { ansicht: zeigeRegistrierung, nurGaeste: true },
+    "/anmelden": { ansicht: zeigeAnmeldung, nurGaeste: true },
 };
 
 // Liest die aktuelle Adresse bzw. Unterseite, auf der sich der Nutzer aktuell befindet
@@ -54,17 +58,36 @@ function markiereAktivenLink(pfad) {
   });
 }
 
+// Wechselt zu einer anderen Seite. Ist die Adresse schon die richtige, ändert sich nichts am #
+// und es gäbe kein hashchange, deshalb wird die Ansicht dann selbst neu aufgebaut.
+export function wechsleZu(pfad) {
+  if (aktuellerPfad() === pfad) {
+    zeigeAnsicht();
+  } else {
+    location.hash = `#${pfad}`;   //--> löst hashchange aus, der Router baut alles neu auf
+  }
+}
+
 // ROUTER !!!
 //--> Sorgt 1. für den richtigen Inhalt, 2. dass unbekannte Seiten abgefangen und 
 //--> 3. dass das Menü (Hervorhebung etc.) aktualisiert wird
 export function zeigeAnsicht() {
   const container = document.getElementById("app");
   const pfad = aktuellerPfad();
+  const route = routen[pfad];
+
+  // Darf der Nutzer die Seite sehen? Wenn nicht, wird umgeleitet und der Router läuft danach neu
+  const umleitung = pruefeZugriff(route, istAngemeldet());
+  if (umleitung !== null) {
+    if (umleitung === "/anmelden") setzeHinweis(HINWEIS_ANMELDUNG_NOETIG);
+    wechsleZu(umleitung);
+    return;
+  }
 
   zeigeNavigation(); //--> Menü wird passend zum Anmeldestatus aufgebaut
   
   // ?? nimmt die rechte Seite, wenn links nichts gefunden wurde (undefined)
-  const ansicht = routen[pfad] ?? zeigeNichtGefunden;   //--> In routen sind alle Pfäde, Pfad wird nun abgeglichen mit denen in Routen
+  const ansicht = route?.ansicht ?? zeigeNichtGefunden;   //--> In routen sind alle Pfäde, Pfad wird nun abgeglichen mit denen in Routen
   ansicht(container);                                   //--> Wenn gefunden, dann wird entsprechende Seite angezeigt
   markiereAktivenLink(pfad);
 }
