@@ -1,8 +1,16 @@
 // Einstiegspunkt der SPA. Wird von index.html als Modul geladen.
 //--> Verknüpfung von Navigation (Router) und echtem Datencheck, also ob der Server bzw. BFF erreichbar ist
-import { holeStatus, meldeAb } from "./api.js";
-import { starteRouter, zeigeAnsicht } from "./router.js";
+import { holeStatus, meldeAb, setzeSitzungsHandler } from "./api.js";
+import { starteRouter, zeigeAnsicht, wechsleZu } from "./router.js";
 import { loescheToken } from "./auth.js";
+import { setzeHinweis, HINWEIS_SITZUNG_ABGELAUFEN } from "./zugriff.js";
+
+// Läuft die Sitzung ab, so wird das Token gelöscht und die Anmeldeseite mit einem Hinweis gezeigt
+setzeSitzungsHandler(() => {
+  loescheToken();
+  setzeHinweis(HINWEIS_SITZUNG_ABGELAUFEN);
+  wechsleZu("/anmelden");
+});
 
 // Zeigt die passende Ansicht und reagiert auf Adressänderungen.
 starteRouter();

@@ -23,13 +23,31 @@ export class ApiFehler extends Error {
   }
 }
 
-//Allgemeine Anfrage an das BFF. Falls vorhanden, wird das Token im Header mitgegeben
-export async function anfrage(pfad, { methode = "GET", daten } = {}) {
+// Läuft die Sitzung ab (das BFF antwortet auf einen geschützten Aufruf mit 401), wird dieser
+// Handler aufgerufen. app.js trägt ihn ein: Er meldet ab und wechselt zur Anmeldung.
+// So muss nicht jede Ansicht selbst darauf reagieren.
+let sitzungsHandler = () => {};
+
+export function setzeSitzungsHandler(handler) {
+  sitzungsHandler = handler;
+}
+
+//Allgemeine Anfrage an das BFF -->cFalls vorhanden, wird das Token im Header mitgegeben
+// geschützt: true bei Aufrufen, die ein Token brauchen. Ist keines da oder lehnt das BFF es mit 401 ab,
+// wird der Sitzungshandler aufgerufen. Wer solche Aufrufe macht, braucht bei einem Fehler mit
+// Status 401 nichts mehr anzuzeigen, die Anmeldeseite erscheint dann schon.
+// Bei normalen Aufrufen, zB. Login bedeutet 401 nur "Zugangsdaten falsch", das ist kein Sitzungsende.
+export async function anfrage(pfad, { methode = "GET", daten, geschuetzt = false } = {}) {
   const kopfzeilen = { "Content-Type": "application/json" };
 
   const token = holeToken();
   if (token !== null) {
     kopfzeilen.Authorization = `Bearer ${token}`;
+  }
+
+  if (geschuetzt && token === null) {
+    sitzungsHandler();
+    throw new ApiFehler(401, "Nicht angemeldet.");
   }
 
   let antwort;
@@ -47,8 +65,8 @@ export async function anfrage(pfad, { methode = "GET", daten } = {}) {
   // Die Antwort darf ohne gültiges JSON kommen (z. B. bei einem Serverabsturz)
   const inhalt = await antwort.json().catch(() => ({}));
 
-  // fetch wirft bei 4xx/5xx nicht von selbst, deshalb wird hier geprüft
   if (!antwort.ok) {
+    if (geschuetzt && antwort.status === 401) sitzungsHandler();
     throw new ApiFehler(antwort.status, inhalt.message ?? "");
   }
   return inhalt;
