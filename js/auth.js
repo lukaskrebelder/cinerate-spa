@@ -29,7 +29,7 @@ export function holeToken(speicher = globalThis.localStorage) {
 export function loescheToken(speicher = globalThis.localStorage) {
   if (!speicher) return;
   speicher.removeItem(SCHLUESSEL);
-  speicher.removeItem(SCHLUESSEL_USER_UD);
+  speicher.removeItem(SCHLUESSEL_USER_ID);
 }
 
 // Die ID des angemeldeten Nutzers (zB. "u_67"). Sie kommt vom Login und wird gebraucht, um das

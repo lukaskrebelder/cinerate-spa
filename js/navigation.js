@@ -10,13 +10,15 @@ export function bestimmeMenuepunkte(angemeldet) {
   const start = { text: "Start", route: "/" };
 
   if (angemeldet) {
-        return [start, { text: "Filme", route: "/filme" }, { text: "Abmelden", aktion: "abmelden" }];
+        return [start,
+           { text: "Filme", route: "/filme" },
+           { text: "Konto", route: "/konto"},
+           { text: "Abmelden",aktion: "abmelden" }];
   }
   return [
     start,
-    { text: "Filme", route: "/filme" },
-    { text: "Konto", route: "/konto" },
-    { text: "Abmelden", aktion: "abmelden"}
+    { text: "Anmelden", route: "/anmelden" },
+    { text: "Registrieren", route: "/registrieren" },
   ];
 }
 
