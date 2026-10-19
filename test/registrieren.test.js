@@ -1,3 +1,4 @@
+// KI-Log B11: Erstellt mithilfe von KI (Claude Sonnett 5.5)
 // Unit-Tests für die Fehlertexte der Registrierung aus js/views/registrieren.js (US-2).
 import test from "node:test";
 import assert from "node:assert";

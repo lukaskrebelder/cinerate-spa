@@ -1,3 +1,4 @@
+// KI-Log B10: Erstellt mithilfe von KI (Claude Sonnett 5.5)
 // Unit-Tests für die Menüpunkte aus js/navigation.js (US-2).
 import test from "node:test";
 import assert from "node:assert";
@@ -25,7 +26,13 @@ test("bestimmeMenuepunkte zeigt ohne Anmeldung kein Abmelden", () => {
 
 test("bestimmeMenuepunkte zeigt mit Anmeldung Start, Filme und Abmelden", () => {
   const texte = bestimmeMenuepunkte(true).map((punkt) => punkt.text);
-  assert.deepStrictEqual(texte, ["Start", "Filme", "Abmelden"]);
+  assert.deepStrictEqual(texte, ["Start", "Filme", "Konto", "Abmelden"]);
+});
+
+test("bestimmeMenuepunkte führt Konto auf die Seite /konto und zeigt es Gästen nicht", () => {
+  assert.strictEqual(bestimmeMenuepunkte(true).find((p) => p.text === "Konto").route, "/konto");
+  const texteGast = bestimmeMenuepunkte(false).map((punkt) => punkt.text);
+  assert.strictEqual(texteGast.includes("Konto"), false);
 });
 
 test("bestimmeMenuepunkte führt Filme auf die Seite /filme und zeigt es Gästen nicht", () => {

@@ -1,4 +1,4 @@
-//--> Tests mithilfe von CLAUDE Sonnet 5.5 (zeitliche Gründe)
+// KI-Log B3: Erstellt mithilfe von KI (Claude Sonnett 5.5)
 
 // Unit-Tests für den Umgang mit einer abgelaufenen Sitzung in js/api.js (PB-12).
 // Bei geschützten Aufrufen (geschuetzt: true) wird der Sitzungshandler aufgerufen, wenn

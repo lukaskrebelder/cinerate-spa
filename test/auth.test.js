@@ -1,3 +1,4 @@
+// KI-Log B7: Erstellt mithilfe von KI (Claude Sonnett 5.5)
 // Unit-Tests für die Token-Verwaltung aus js/auth.js (US-2).
 import test from "node:test";
 import assert from "node:assert";

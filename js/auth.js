@@ -6,6 +6,7 @@
 // localStorage, in den Tests ein einfaches Ersatzobjekt (Node hat keinen localStorage).
 
 const SCHLUESSEL = "cinerate_token";
+const SCHLUESSEL_USER_ID = "cinerate_userId";
 
 // Speichert das Token. Ein leeres oder ungültiges Token wird nicht gespeichert.
 export function speichereToken(token, speicher = globalThis.localStorage) {
@@ -24,9 +25,27 @@ export function holeToken(speicher = globalThis.localStorage) {
 }
 
 // Löscht das Token, zum Beispiel beim Abmelden.
+// loescheToken löscht automatisch die ID mit
 export function loescheToken(speicher = globalThis.localStorage) {
   if (!speicher) return;
   speicher.removeItem(SCHLUESSEL);
+  speicher.removeItem(SCHLUESSEL_USER_ID);
+}
+
+// Die ID des angemeldeten Nutzers (zB. "u_67"). Sie kommt vom Login und wird gebraucht, um das
+// eigene Konto zu löschen. Sie bleibt ein Text, denn das Backend verlangt genau dieses Format.
+// Eine fehlende oder leere ID wird nicht gespeichert (zB. bei einem älteren Backend), ohne Fehler.
+export function speichereUserId(userId, speicher = globalThis.localStorage) {
+  if (typeof userId !== "string" || userId.trim() === "") return;
+  if (!speicher) return;
+  speicher.setItem(SCHLUESSEL_USER_ID, userId);
+}
+
+// Liefert die gespeicherte ID oder null.
+export function holeUserId(speicher = globalThis.localStorage) {
+  if (!speicher) return null;
+  const userId = speicher.getItem(SCHLUESSEL_USER_ID);
+  return typeof userId === "string" && userId !== "" ? userId : null;
 }
 
 // Ist jemand angemeldet? Ja, wenn ein Token gespeichert ist.

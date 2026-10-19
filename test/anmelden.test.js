@@ -1,3 +1,4 @@
+// KI-Log B1: Erstellt mithilfe von KI (Claude Sonnett 5.5)
 // Unit-Tests für die Fehlertexte der Anmeldung aus js/views/anmelden.js (US-2).
 import test from "node:test";
 import assert from "node:assert";
