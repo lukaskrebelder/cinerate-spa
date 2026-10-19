@@ -4,6 +4,7 @@ import { zeigeRegistrierung } from "./views/registrieren.js";
 import { zeigeAnmeldung } from "./views/anmelden.js";
 import { istAngemeldet } from "./auth.js";
 import { pruefeZugriff, setzeHinweis, HINWEIS_ANMELDUNG_NOETIG } from "./zugriff.js";
+import { zeigeFilme } from "./views/filme.js";
 
 // Der Router entscheidet anhand der Adresse, welche Ansicht gezeigt wird.
 // Die Adresse steht hinter dem # (zB. index.html#/anmelden)
@@ -18,6 +19,7 @@ const routen = {
     "/": { ansicht: zeigeStartseite },
     "/registrieren": { ansicht: zeigeRegistrierung, nurGaeste: true },
     "/anmelden": { ansicht: zeigeAnmeldung, nurGaeste: true },
+    "/filme": {ansicht: zeigeFilme, geschuetzt: true},
 };
 
 // Liest die aktuelle Adresse bzw. Unterseite, auf der sich der Nutzer aktuell befindet
