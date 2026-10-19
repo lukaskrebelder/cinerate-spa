@@ -1,6 +1,6 @@
 // Navigation im Header. 
 //--> Welche Menüpunkte sichtbar sind, hängt davon ab, ob der Nutzer angemeldet ist oder nicht
-//--> Gäste sehen "Anmelden" und "Registrieren", angemeldete Nutzer sehen "Filme" und "Abmelden".
+//--> Gäste sehen "Anmelden" und "Registrieren", angemeldete Nutzer sehen "Filme", "Konto" und "Abmelden".
 import { istAngemeldet } from "./auth.js";
 
 // Die funktion klärt,  Menüpunkte gehören zu welchem Zustand?
@@ -14,8 +14,9 @@ export function bestimmeMenuepunkte(angemeldet) {
   }
   return [
     start,
-    { text: "Anmelden", route: "/anmelden" },
-    { text: "Registrieren", route: "/registrieren" },
+    { text: "Filme", route: "/filme" },
+    { text: "Konto", route: "/konto" },
+    { text: "Abmelden", aktion: "abmelden"}
   ];
 }
 
