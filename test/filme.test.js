@@ -1,4 +1,4 @@
-//Unit-Tests aus zeitlihen Gründen mithilfe von KI (CLAUDE Sonett 5.5) erstellt 
+// KI-Log B8: Erstellt mithilfe von KI (Claude Sonnett 5.5)
 // Unit-Tests für die Hilfsfunktionen der Filmsuche aus js/views/filme.js (US-5).
 import test from "node:test";
 import assert from "node:assert";

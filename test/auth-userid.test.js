@@ -1,4 +1,4 @@
-// Unit-Testa aus zeitlichen Gründen mithilfe von KI (CLAUDE Sonnet 5.5) erstellt
+// KI-Log B6: Erstellt mithilfe von KI (Claude Sonnett 5.5)
 // Unit-Tests für die Speicherung der Nutzer-ID aus js/auth.js (PB-04).
 import test from "node:test";
 import assert from "node:assert";

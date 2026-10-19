@@ -1,3 +1,4 @@
+// KI-Log B5: Erstellt mithilfe von KI (Claude Sonnett 5.5)
 // Unit-Tests für die BFF-Aufrufe aus js/api.js (US-2).
 import test from "node:test";
 import assert from "node:assert";

@@ -1,4 +1,4 @@
-// Unit-Tests mithilfe von KI (Claude Sonett 5.5) geschrieben, da zeitlicher Aufwand sehr hoch
+// KI-Log B4: Erstellt mithilfe von KI (Claude Sonnett 5.5)
 // Unit-Tests für die Filmsuche aus js/api.js (US-5).
 import test from "node:test";
 import assert from "node:assert";

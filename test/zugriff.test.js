@@ -1,4 +1,4 @@
-// --> Unit-Tests mithilfe von CLAUDE Sonnet 5.5 erstellt
+// KI-Log B13: Erstellt mithilfe von KI (Claude Sonnett 5.5)
 // Unit-Tests für den Zugriffsschutz aus js/zugriff.js (PB-12).
 import test from "node:test";
 import assert from "node:assert";

@@ -1,3 +1,4 @@
+// KI-Log B12: Erstellt mithilfe von KI (Claude Sonnett 5.5)
 // Alle Unit-Tests für die entsprechenden Prüfregeln aus js/validierung.js (US-2).
 
 import test from "node:test";

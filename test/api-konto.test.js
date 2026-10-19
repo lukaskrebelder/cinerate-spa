@@ -1,4 +1,4 @@
-//--> Tests mithilfe von CLAUDE Sonnet 5.5 (zeitliche Gründe)
+// KI-Log B2: Erstellt mithilfe von KI (Claude Sonnett 5.5)
 // Unit-Tests für das Löschen des Kontos aus js/api.js (PB-04).
 import test from "node:test";
 import assert from "node:assert";

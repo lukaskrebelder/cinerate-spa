@@ -1,4 +1,4 @@
-//--> Tests mithilfe von CLAUDE Sonnet 5.5 (zeitliche Gründe)
+// KI-Log B9: Erstellt mithilfe von KI (Claude Sonnett 5.5)
 // Unit-Tests für die Fehlertexte der Kontoseite aus js/views/konto.js (PB-04).
 import test from "node:test";
 import assert from "node:assert";
