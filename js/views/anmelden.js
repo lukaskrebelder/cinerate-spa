@@ -1,7 +1,7 @@
 // Ansicht: Anmeldung (US-2).
 // Ablauf: Eingaben prüfen -> an das BFF senden -> Token speichern und zur Startseite wechseln.
 import { meldeAn } from "../api.js";
-import { speichereToken } from "../auth.js";
+import { speichereToken, speichereUserId } from "../auth.js";
 import { findeAnmeldefehler } from "../validierung.js";
 import { holeHinweis } from "../zugriff.js";
 
@@ -70,6 +70,7 @@ export function zeigeAnmeldung(container) {
     try {
       const antwort = await meldeAn(daten);
       speichereToken(antwort.token);  // das Token ist ab jetzt der "Ausweis" für geschützte Aufrufe
+      speichereUserId(antwort.userId) // die ID braucht man, um das eigene Konto zu löschen
       location.hash = "#/";           // löst hashchange aus: Der Router zeigt die Startseite, das Menü zeigt "Abmelden"
     } catch (fehlerAntwort) {
       zeigeFehler(uebersetzeAnmeldefehler(fehlerAntwort.status));
