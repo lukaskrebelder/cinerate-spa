@@ -119,3 +119,9 @@ export function baueSuchpfad({ query, genre, page } = {}) {
 export function sucheFilme(suche) {
   return anfrage(baueSuchpfad(suche), { geschuetzt: true });
 }
+
+// Konto löschen (PB-04): DELETE /bff/users/{userId}. Das Backend löscht das Konto mit allen Daten
+// und erlaubt es nur für das eigene Konto (sonst 403). Die ID hat das Format "u_67".
+export function loescheKonto(userId) {
+  return anfrage(`/users/${encodeURIComponent(userId)}`, { methode: "DELETE", geschuetzt: true });
+}
