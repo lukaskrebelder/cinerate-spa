@@ -23,9 +23,15 @@ test("bestimmeMenuepunkte zeigt ohne Anmeldung kein Abmelden", () => {
 
 // Angemeldeter Nutzer 
 
-test("bestimmeMenuepunkte zeigt mit Anmeldung Start und Abmelden", () => {
+test("bestimmeMenuepunkte zeigt mit Anmeldung Start, Filme und Abmelden", () => {
   const texte = bestimmeMenuepunkte(true).map((punkt) => punkt.text);
-  assert.deepStrictEqual(texte, ["Start", "Abmelden"]);
+  assert.deepStrictEqual(texte, ["Start", "Filme", "Abmelden"]);
+});
+
+test("bestimmeMenuepunkte führt Filme auf die Seite /filme und zeigt es Gästen nicht", () => {
+  assert.strictEqual(bestimmeMenuepunkte(true).find((p) => p.text === "Filme").route, "/filme");
+  const texteGast = bestimmeMenuepunkte(false).map((punkt) => punkt.text);
+  assert.strictEqual(texteGast.includes("Filme"), false);
 });
 
 test("bestimmeMenuepunkte zeigt mit Anmeldung weder Anmelden noch Registrieren", () => {

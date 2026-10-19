@@ -98,3 +98,24 @@ export function meldeAn(daten) {
 export function meldeAb() {
   return anfrage("/auth", { methode: "DELETE" });
 }
+
+// Mithilfe von CLAUDE Sonnet 5.5
+// Baut den Pfad für die Filmsuche.
+// --> Nur ausgefüllte Felder kommen in die Adresse.
+// --> URLSearchParams kümmert sich um Leerzeichen und Sonderzeichen (zB. "Science Fiction").
+export function baueSuchpfad({ query, genre, page } = {}) {
+  const parameter = new URLSearchParams();
+  if (typeof query === "string" && query.trim() !== "") parameter.set("query", query.trim());
+  if (typeof genre === "string" && genre.trim() !== "") parameter.set("genre", genre.trim());
+  if (Number.isInteger(page) && page > 1) parameter.set("page", String(page));
+
+  const text = parameter.toString();
+  return text === "" ? "/movies" : `/movies?${text}`;
+}
+
+// Filmsuche: GET /bff/movies. Ohne Titel und Genre liefert das Backend eine Standardliste.
+// Antwort: { page, totalPages, movies: [{ movieId, title, posterUrl }] }
+// geschuetzt: Ohne gültige Sitzung wird zur Anmeldung gewechselt (siehe setzeSitzungsHandler).
+export function sucheFilme(suche) {
+  return anfrage(baueSuchpfad(suche), { geschuetzt: true });
+}
