@@ -125,3 +125,10 @@ export function sucheFilme(suche) {
 export function loescheKonto(userId) {
   return anfrage(`/users/${encodeURIComponent(userId)}`, { methode: "DELETE", geschuetzt: true });
 }
+
+// Filmdetails: Die ID ist die TMDB-ID aus der Trefferliste
+// description, fsk, releaseYear, runtime, posterUrl und avgRating können null sein
+// --> Ohne gültige Sitzung wird zur Anmeldung gewechselt
+export function holeFilm(movieId) {
+  return anfrage(`/movies/${encodeURIComponent(movieId)}`, { geschuetzt: true });
+}
