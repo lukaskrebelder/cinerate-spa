@@ -6,6 +6,7 @@ import { istAngemeldet } from "./auth.js";
 import { pruefeZugriff, setzeHinweis, HINWEIS_ANMELDUNG_NOETIG } from "./zugriff.js";
 import { zeigeFilme } from "./views/filme.js";
 import { zeigeKonto } from "./views/konto.js";
+import { zeigeFilm } from "./views/film.js";
 
 // Der Router entscheidet anhand der Adresse, welche Ansicht gezeigt wird.
 // Die Adresse steht hinter dem # (zB. index.html#/anmelden)
@@ -22,6 +23,7 @@ const routen = {
     "/anmelden": { ansicht: zeigeAnmeldung, nurGaeste: true },
     "/filme": {ansicht: zeigeFilme, geschuetzt: true},
     "/konto": { ansicht: zeigeKonto, geschuetzt: true }, 
+    "/film/:movieId": { ansicht: zeigeFilm, geschuetzt: true, menuepunkt: "/filme" },
 };
 
 // Liest die aktuelle Adresse bzw. Unterseite, auf der sich der Nutzer aktuell befindet
@@ -31,6 +33,31 @@ function aktuellerPfad() {
     const hash = location.hash.slice(1);    //--> schneidet das # ab: "#/anmelden" --> "/anmelden"
     return hash === "" ? "/" : hash;        //--> BEDINGUNG ? Wert wenn WAHR : Wert wenn FALSCH
 }
+
+// Sucht die Route zu einem Pfad. Liefert, bei einem unbekannten Pfad ist route undefined.
+export function findeRoute(pfad) {
+  const teile = pfad.split("/");
+
+  for (const [muster, route] of Object.entries(routen)) {
+    const musterTeile = muster.split("/");
+    if (musterTeile.length !== teile.length) continue;   //--> Die Anzahl der Teile muss gleich sein
+
+    const parameter = {};
+    const passt = musterTeile.every((musterTeil, i) => {
+      if (!musterTeil.startsWith(":")) return musterTeil === teile[i];
+      if (teile[i] === "") return false;                 //--> Ein Platzhalter darf nicht leer sein
+      try {
+        parameter[musterTeil.slice(1)] = decodeURIComponent(teile[i]);
+        return true;
+      } catch {
+        return false;                                    //--> kaputte Kodierung wie "%E0%A4%A"
+      }
+    });
+    if (passt) return { route, parameter };
+  }
+  return { route: undefined, parameter: {} };
+}
+
 
 // Ansicht für unbekannte Adressen.
 //--> Es werden DOM-Elemente einzeln erzeugt und ihr Text mit textContent gesetzt
@@ -78,7 +105,7 @@ export function wechsleZu(pfad) {
 export function zeigeAnsicht() {
   const container = document.getElementById("app");
   const pfad = aktuellerPfad();
-  const route = routen[pfad];
+  const { route, parameter } = findeRoute(pfad);
 
   // Darf der Nutzer die Seite sehen? Wenn nicht, wird umgeleitet und der Router läuft danach neu
   const umleitung = pruefeZugriff(route, istAngemeldet());
@@ -92,8 +119,8 @@ export function zeigeAnsicht() {
   
   // ?? nimmt die rechte Seite, wenn links nichts gefunden wurde (undefined)
   const ansicht = route?.ansicht ?? zeigeNichtGefunden;   //--> In routen sind alle Pfäde, Pfad wird nun abgeglichen mit denen in Routen
-  ansicht(container);                                   //--> Wenn gefunden, dann wird entsprechende Seite angezeigt
-  markiereAktivenLink(pfad);
+  ansicht(container, parameter);                                   //--> Wenn gefunden, dann wird entsprechende Seite angezeigt
+  markiereAktivenLink(route?.menuepunkt ?? pfad);
 }
 
 // Sobald sich die Adresse/URL ändert (hashChange), dann wird die Funktion zeigeAnsicht() aufgerufen

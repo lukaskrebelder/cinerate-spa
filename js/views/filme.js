@@ -29,30 +29,40 @@ export function bestimmeSeitenanzeige(seite, gesamtSeiten) {
   };
 }
 
-// Eine Karte für einen Film. Titel und Bild-Adresse kommen von außen (TMDB), deshalb werden die
-// Elemente einzeln erzeugt und der Text mit textContent gesetzt, nie mit innerHTML.
+// Eine Karte für einen Film. Titel und Bild-Adresse kommen von außen (TMDB), 
+// deshalb werden die Elemente einzeln erzeugt und der Text mit textContent gesetzt (nie mit innerHTML)
+// Die ganze Karte ist ein Link auf die Detailseite
 function erzeugeFilmkarte(film) {
   const karte = document.createElement("li");
   karte.className = "film-karte";
+
+  // Ohne ganze Zahl als ID (sollte nicht vorkommen) bleibt die Karte ein einfacher Block ohne Link
+  const hatId = Number.isInteger(film.movieId);
+  const inhalt = document.createElement(hatId ? "a" : "div");
+  if (hatId) {
+    inhalt.className = "film-link";
+    inhalt.href = `#/film/${film.movieId}`;
+  }
 
   if (istSichereBildUrl(film.posterUrl)) {
     const bild = document.createElement("img");
     bild.src = film.posterUrl;
     bild.alt = `Poster zu ${film.title}`;
     bild.loading = "lazy";            // Bilder werden erst geladen, wenn sie in Sicht kommen
-    karte.append(bild);
+    inhalt.append(bild);
   } else {
     const platzhalter = document.createElement("div");
     platzhalter.className = "film-poster-leer";
     platzhalter.textContent = "Kein Poster";
-    karte.append(platzhalter);
+    inhalt.append(platzhalter);
   }
 
   const titel = document.createElement("p");
   titel.className = "film-titel";
   titel.textContent = film.title;
-  karte.append(titel);
+  inhalt.append(titel);
 
+  karte.append(inhalt);
   return karte;
 }
 
