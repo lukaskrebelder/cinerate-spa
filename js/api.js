@@ -132,3 +132,17 @@ export function loescheKonto(userId) {
 export function holeFilm(movieId) {
   return anfrage(`/movies/${encodeURIComponent(movieId)}`, { geschuetzt: true });
 }
+
+// Bewertungen eines Films
+export function holeBewertungen(movieId) {
+  return anfrage(`/movies/${encodeURIComponent(movieId)}/ratings`, { geschuetzt: true });
+}
+
+// Bewertung abgeben oder die eigene ändern 
+export function bewerteFilm(movieId, stars) {
+  return anfrage(`/movies/${encodeURIComponent(movieId)}/ratings`, {
+    methode: "POST",
+    daten: { stars },
+    geschuetzt: true,
+  });
+}

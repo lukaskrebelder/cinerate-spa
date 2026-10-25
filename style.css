@@ -442,3 +442,86 @@ input:focus-visible {
     max-width: 260px;
   }
 }
+
+/* Bewertung auf der Detailseite: Durchschnitt, eigene Bewertung und fünf Sterne zum Anklicken */
+.bewertung {
+  margin: 0 0 1.25rem;
+  padding: 1rem;
+  background: var(--farbe-hintergrund);
+  border: 1px solid var(--farbe-mint);
+  border-radius: var(--radius);
+}
+
+.bewertung h2 {
+  margin-top: 0;
+}
+
+.bewertung-durchschnitt {
+  margin: 0 0 0.25rem;
+  font-weight: 600;
+}
+
+.bewertung-eigene {
+  margin: 0 0 0.75rem;
+}
+
+.bewertung-eingabe {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.bewertung-eingabe legend {
+  padding: 0;
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+}
+
+.sterne {
+  position: relative;
+  display: flex;
+  gap: 0.15rem;
+}
+
+/* Die Auswahlkreise sind unsichtbar, die Gruppe bleibt aber mit Tastatur (Pfeiltasten) bedienbar */
+.sterne input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.stern {
+  font-size: 2rem;
+  line-height: 1;
+  color: #B5C7BF;
+  cursor: pointer;
+}
+
+.stern.gefuellt {
+  color: #E0A800;
+}
+
+.stern:hover {
+  color: var(--farbe-akzent);
+}
+
+.sterne input:focus-visible + .stern {
+  outline: 3px solid var(--farbe-akzent);
+  outline-offset: 2px;
+}
+
+.bewertung-eingabe:disabled .stern {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Text nur für Screenreader (zB. "3 Sterne" hinter dem Stern) */
+.nur-lesen {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
