@@ -146,3 +146,19 @@ export function bewerteFilm(movieId, stars) {
     geschuetzt: true,
   });
 }
+
+// Watchlist für angemeldete Nutzer
+export function holeWatchlist() {
+  return anfrage("/watchlist", { geschuetzt: true });
+}
+
+// Film vormerken: POST /bff/watchlist, Body { movieId } (ganze Zahl, die TMDB-ID).
+// Antwort 201 { message }, 404 bei unbekanntem Film, 409 wenn der Film schon auf der Watchlist steht.
+export function fuegeZurWatchlistHinzu(movieId) {
+  return anfrage("/watchlist", { methode: "POST", daten: { movieId: Number(movieId) }, geschuetzt: true });
+}
+
+// Film entfernen: DELETE /bff/watchlist/{movieId}. Antwort 200 { message }, 404 wenn er nicht auf der Watchlist steht.
+export function entferneVonWatchlist(movieId) {
+  return anfrage(`/watchlist/${encodeURIComponent(movieId)}`, { methode: "DELETE", geschuetzt: true });
+}
