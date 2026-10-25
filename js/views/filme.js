@@ -32,7 +32,7 @@ export function bestimmeSeitenanzeige(seite, gesamtSeiten) {
 // Eine Karte für einen Film. Titel und Bild-Adresse kommen von außen (TMDB), 
 // deshalb werden die Elemente einzeln erzeugt und der Text mit textContent gesetzt (nie mit innerHTML)
 // Die ganze Karte ist ein Link auf die Detailseite
-function erzeugeFilmkarte(film) {
+export function erzeugeFilmkarte(film) {
   const karte = document.createElement("li");
   karte.className = "film-karte";
 
