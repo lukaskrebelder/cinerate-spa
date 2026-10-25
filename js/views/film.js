@@ -2,6 +2,7 @@
 // Es wird Poster, Titel, Genres, Eckdaten und Beschreibung gezeigt
 import { holeFilm } from "../api.js";
 import { istSichereBildUrl } from "./filme.js";
+import { erzeugeBewertung } from "./bewertung.js";
 
 // Die ID kommt aus der Adresse und ist damit Text. Gültig ist nur eine ganze Zahl ab 1 (die TMDB-ID).
 export function istGueltigeFilmId(id) {
@@ -32,20 +33,13 @@ export function formatiereFsk(fsk) {
   return [0, 6, 12, 16, 18].includes(fsk) ? `FSK ${fsk}` : "Keine Angabe";
 }
 
-// Durchschnittsbewertung als Text mit Komma, zB. 4.25 --> "4,3 von 5".
-// Das Backend liefert null, solange es noch keine Bewertung gibt.
-export function formatiereBewertung(durchschnitt) {
-  if (typeof durchschnitt !== "number" || Number.isNaN(durchschnitt)) return "Noch keine Bewertungen";
-  return `${durchschnitt.toFixed(1).replace(".", ",")} von 5`;
-}
-
 // Die Eckdaten, die unter dem Titel stehen, als Paare aus Bezeichnung und Wert.
+// Durchschnitt und eigene Bewertung zeigt der Bewertungsbereich (siehe bewertung.js)
 export function bestimmeDetails(film) {
   return [
     { bezeichnung: "Erscheinungsjahr", wert: Number.isInteger(film.releaseYear) ? String(film.releaseYear) : "Keine Angabe" },
     { bezeichnung: "Laufzeit", wert: formatiereLaufzeit(film.runtime) },
     { bezeichnung: "Altersfreigabe", wert: formatiereFsk(film.fsk) },
-    { bezeichnung: "Durchschnittsbewertung", wert: formatiereBewertung(film.avgRating) },
   ];
 }
 
@@ -98,6 +92,7 @@ function erzeugeDetail(film) {
     daten.append(begriff, inhalt);
   }
   info.append(daten);
+  info.append(erzeugeBewertung(film.movieId));
 
   const beschreibungTitel = document.createElement("h2");
   beschreibungTitel.textContent = "Beschreibung";

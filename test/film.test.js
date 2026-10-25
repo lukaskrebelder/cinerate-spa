@@ -7,7 +7,6 @@ import {
   uebersetzeDetailfehler,
   formatiereLaufzeit,
   formatiereFsk,
-  formatiereBewertung,
   bestimmeDetails,
 } from "../js/views/film.js";
 
@@ -85,36 +84,21 @@ test("formatiereFsk meldet fehlende oder unbekannte Werte als Keine Angabe", () 
   assert.strictEqual(formatiereFsk("12"), "Keine Angabe");
 });
 
-//--> formatiereBewertung
-
-test("formatiereBewertung zeigt den Durchschnitt mit Komma und einer Nachkommastelle", () => {
-  assert.strictEqual(formatiereBewertung(4.3), "4,3 von 5");
-  assert.strictEqual(formatiereBewertung(5), "5,0 von 5");
-  assert.strictEqual(formatiereBewertung(3.04), "3,0 von 5");
-});
-
-test("formatiereBewertung sagt ohne Bewertung, dass es noch keine gibt", () => {
-  assert.strictEqual(formatiereBewertung(null), "Noch keine Bewertungen");
-  assert.strictEqual(formatiereBewertung(undefined), "Noch keine Bewertungen");
-  assert.strictEqual(formatiereBewertung(NaN), "Noch keine Bewertungen");
-});
-
 //--> bestimmeDetails
 
-test("bestimmeDetails liefert die vier Eckdaten in fester Reihenfolge", () => {
-  const film = { releaseYear: 2014, runtime: 169, fsk: 12, avgRating: 4.3 };
+test("bestimmeDetails liefert die drei Eckdaten in fester Reihenfolge", () => {
+  const film = { releaseYear: 2014, runtime: 169, fsk: 12 };
   assert.deepStrictEqual(bestimmeDetails(film), [
     { bezeichnung: "Erscheinungsjahr", wert: "2014" },
     { bezeichnung: "Laufzeit", wert: "2 h 49 min" },
     { bezeichnung: "Altersfreigabe", wert: "FSK 12" },
-    { bezeichnung: "Durchschnittsbewertung", wert: "4,3 von 5" },
   ]);
 });
 
 test("bestimmeDetails kommt mit fehlenden Angaben (null) zurecht", () => {
-  const film = { releaseYear: null, runtime: null, fsk: null, avgRating: null };
+  const film = { releaseYear: null, runtime: null, fsk: null };
   assert.deepStrictEqual(
     bestimmeDetails(film).map((d) => d.wert),
-    ["Keine Angabe", "Keine Angabe", "Keine Angabe", "Noch keine Bewertungen"]
+    ["Keine Angabe", "Keine Angabe", "Keine Angabe"]
   );
 });

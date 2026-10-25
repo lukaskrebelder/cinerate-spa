@@ -2,7 +2,7 @@
 // Ablauf: Beim Öffnen wird die Standardliste geladen. Wer Titel oder Genre eingibt und auf "Suchen" klickt,
 // bekommt die passenden Filme als Karten (Poster mit Titel darunter)
 import { sucheFilme } from "../api.js";
-import { GENRES } from "../genres.js";
+import { GENRES } from "../genres.js"; 
 
 // Übersetzt den Statuscode einer Fehlerantwort in einen deutschen Text für den Nutzer.
 // 401 (Sitzung abgelaufen) gehört nicht dazu: Dann wechselt die SPA schon zur Anmeldung.
