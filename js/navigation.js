@@ -13,7 +13,10 @@ export function bestimmeMenuepunkte(angemeldet) {
         return [start,
            { text: "Filme", route: "/filme" },
            { text: "Konto", route: "/konto"},
-           { text: "Abmelden",aktion: "abmelden" }];
+           { text: "Abmelden",aktion: "abmelden" },
+           { text: "Watchlist", route: "/watchlist" },
+          ];
+           
   }
   return [
     start,
