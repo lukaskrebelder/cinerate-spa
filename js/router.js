@@ -26,6 +26,7 @@ const routen = {
     "/konto": { ansicht: zeigeKonto, geschuetzt: true }, 
     "/film/:movieId": { ansicht: zeigeFilm, geschuetzt: true, menuepunkt: "/filme" },
     "/watchlist" : { ansicht: zeigeWatchlist, geschuetzt: true },
+    "/fuer-dich": { ansicht: zeigeFuerDich, geschuetzt: true },
 };
 
 // Liest die aktuelle Adresse bzw. Unterseite, auf der sich der Nutzer aktuell befindet
