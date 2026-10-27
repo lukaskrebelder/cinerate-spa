@@ -24,9 +24,9 @@ test("bestimmeMenuepunkte zeigt ohne Anmeldung kein Abmelden", () => {
 
 // Angemeldeter Nutzer 
 
-test("bestimmeMenuepunkte zeigt mit Anmeldung Start, Filme, Watchlist, Konto und Abmelden", () => {
+test("bestimmeMenuepunkte zeigt mit Anmeldung Start, Filme, Für dich, Watchlist, Konto und Abmelden", () => {
   const texte = bestimmeMenuepunkte(true).map((punkt) => punkt.text);
-  assert.deepStrictEqual(texte, ["Start", "Filme", "Watchlist", "Konto", "Abmelden"]);
+  assert.deepStrictEqual(texte, ["Start", "Filme", "Für dich", "Watchlist", "Konto", "Abmelden"]);
 });
 
 test("bestimmeMenuepunkte führt Konto auf die Seite /konto und zeigt es Gästen nicht", () => {
@@ -45,8 +45,14 @@ test("bestimmeMenuepunkte führt Watchlist auf die Seite /watchlist und zeigt es
   assert.strictEqual(bestimmeMenuepunkte(true).find((p) => p.text === "Watchlist").route, "/watchlist");
   const texteGast = bestimmeMenuepunkte(false).map((punkt) => punkt.text);
   assert.strictEqual(texteGast.includes("Watchlist"), false);
-  
 });
+
+test("bestimmeMenuepunkte führt Für dich auf die Seite /fuer-dich und zeigt es Gästen nicht", () => {
+  assert.strictEqual(bestimmeMenuepunkte(true).find((p) => p.text === "Für dich").route, "/fuer-dich");
+  const texteGast = bestimmeMenuepunkte(false).map((punkt) => punkt.text);
+  assert.strictEqual(texteGast.includes("Für dich"), false);
+});
+
 test("bestimmeMenuepunkte zeigt mit Anmeldung weder Anmelden noch Registrieren", () => {
   const texte = bestimmeMenuepunkte(true).map((punkt) => punkt.text);
   assert.strictEqual(texte.includes("Anmelden"), false);

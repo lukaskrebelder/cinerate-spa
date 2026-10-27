@@ -15,6 +15,7 @@ export function bestimmeMenuepunkte(angemeldet) {
            { text: "Watchlist", route: "/watchlist" },
            { text: "Konto", route: "/konto"},
            { text: "Abmelden",aktion: "abmelden" },
+           { text: "Für dich", route: "/fuer-dich" },
           ];
            
   }
