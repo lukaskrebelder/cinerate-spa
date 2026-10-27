@@ -3,6 +3,7 @@
 import { holeFilm } from "../api.js";
 import { istSichereBildUrl } from "./filme.js";
 import { erzeugeBewertung } from "./bewertung.js";
+import { erzeugeWatchlistKnopf } from "./watchlist.js";
 
 // Die ID kommt aus der Adresse und ist damit Text. Gültig ist nur eine ganze Zahl ab 1 (die TMDB-ID).
 export function istGueltigeFilmId(id) {
@@ -92,6 +93,7 @@ function erzeugeDetail(film) {
     daten.append(begriff, inhalt);
   }
   info.append(daten);
+  info.append(erzeugeWatchlistKnopf(film.movieId));
   info.append(erzeugeBewertung(film.movieId));
 
   const beschreibungTitel = document.createElement("h2");

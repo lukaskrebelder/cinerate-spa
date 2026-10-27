@@ -525,3 +525,22 @@ input:focus-visible {
   clip: rect(0 0 0 0);
   white-space: nowrap;
 }
+
+/* Watchlist: Knopf auf der Detailseite und Knopf unter den Karten auf der Seite Watchlist */
+.watchlist-bereich {
+  margin: 0 0 1.25rem;
+}
+
+.watchlist-bereich .button:disabled,
+.karte-knopf:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.film-karte .karte-knopf {
+  display: block;
+  width: calc(100% - 1.5rem);
+  margin: 0 0.75rem 0.75rem;
+  padding: 0.45rem 0.75rem;
+  font-size: 0.9rem;
+}
