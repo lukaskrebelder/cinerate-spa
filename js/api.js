@@ -162,3 +162,8 @@ export function fuegeZurWatchlistHinzu(movieId) {
 export function entferneVonWatchlist(movieId) {
   return anfrage(`/watchlist/${encodeURIComponent(movieId)}`, { methode: "DELETE", geschuetzt: true });
 }
+
+// Filmvorschläge
+export function holeVorschlaege() {
+  return anfrage("/recommendations", { geschuetzt: true });
+}
