@@ -544,3 +544,24 @@ input:focus-visible {
   padding: 0.45rem 0.75rem;
   font-size: 0.9rem;
 }
+
+/* Seite "Für dich" --> dort werden die Filmvorschläge angezeigt */
+.vorschlag-raster {
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+}
+
+.fuer-dich-genre {
+  margin: 0.25rem 0 0.5rem;
+  font-weight: 600;
+}
+
+.film-beschreibung {
+  margin: 0;
+  padding: 0 0.75rem 0.75rem;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.hinweis a {
+  font-weight: 600;
+}
