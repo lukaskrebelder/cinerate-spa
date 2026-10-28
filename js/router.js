@@ -8,6 +8,7 @@ import { zeigeFilme } from "./views/filme.js";
 import { zeigeKonto } from "./views/konto.js";
 import { zeigeFilm } from "./views/film.js";
 import { zeigeWatchlist } from "./views/watchlist.js";
+import { zeigeFuerDich } from "./views/fuerdich.js";
 
 // Der Router entscheidet anhand der Adresse, welche Ansicht gezeigt wird.
 // Die Adresse steht hinter dem # (zB. index.html#/anmelden)
@@ -26,6 +27,7 @@ const routen = {
     "/konto": { ansicht: zeigeKonto, geschuetzt: true }, 
     "/film/:movieId": { ansicht: zeigeFilm, geschuetzt: true, menuepunkt: "/filme" },
     "/watchlist" : { ansicht: zeigeWatchlist, geschuetzt: true },
+    "/fuer-dich": { ansicht: zeigeFuerDich, geschuetzt: true },
 };
 
 // Liest die aktuelle Adresse bzw. Unterseite, auf der sich der Nutzer aktuell befindet
