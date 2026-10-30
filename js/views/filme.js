@@ -1,4 +1,4 @@
-// Ansicht: Filmsuche (US-5, PB-07 bis PB-09).
+// Ansicht: Filmsuche 
 // Ablauf: Beim Öffnen wird die Standardliste geladen. Wer Titel oder Genre eingibt und auf "Suchen" klickt,
 // bekommt die passenden Filme als Karten (Poster mit Titel darunter)
 import { sucheFilme } from "../api.js";
@@ -19,7 +19,7 @@ export function istSichereBildUrl(url) {
   return typeof url === "string" && url.startsWith("https://image.tmdb.org/");
 }
 
-// Text und Zustand der Knöpfe unter der Trefferliste, z. B. "Seite 2 von 5"
+// Text und Zustand der Knöpfe unter der Trefferliste
 export function bestimmeSeitenanzeige(seite, gesamtSeiten) {
   const gesamt = Number.isInteger(gesamtSeiten) && gesamtSeiten >= 1 ? gesamtSeiten : 1;
   return {
@@ -29,7 +29,8 @@ export function bestimmeSeitenanzeige(seite, gesamtSeiten) {
   };
 }
 
-// Eine Karte für einen Film. Titel und Bild-Adresse kommen von außen (TMDB), 
+// KI-Log B36: Erstellt mithilfe von KI (Claude Sonnett 5.5) – Filmkarte für die Trefferliste erzeugen
+// Eine Karte für einen Film. Titel und Bild-Adresse kommen von der TMDB, 
 // deshalb werden die Elemente einzeln erzeugt und der Text mit textContent gesetzt (nie mit innerHTML)
 // Die ganze Karte ist ein Link auf die Detailseite
 export function erzeugeFilmkarte(film) {
@@ -66,6 +67,7 @@ export function erzeugeFilmkarte(film) {
   return karte;
 }
 
+// KI-Log B37: Erstellt mithilfe von KI (Claude Sonnett 5.5) – Ansicht der Filmsuche aufbauen
 export function zeigeFilme(container) {
   // Die Beschriftungen stehen fest im Code --> innerHTML hier unkritisch.
   container.innerHTML = `

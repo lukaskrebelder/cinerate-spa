@@ -1,4 +1,4 @@
-// Ansicht
+// Ansicht der Startseite
 
 import { istAngemeldet } from "../auth.js";
 
@@ -21,6 +21,3 @@ export function zeigeStartseite(container){
     </section>
   `;
 }
-
-//--> Inhalt wird im späteren Verlauf noch verändert/erweitert. Zum Beispiel werden angemeldeten Nutzern dann
-//    auf der Startseite Empfehlungen angezeigt oder neue Filme

@@ -44,6 +44,7 @@ export function bestimmeDetails(film) {
   ];
 }
 
+// KI-Log B39: Erstellt mithilfe von KI (Claude Sonnett 5.5) – Detailansicht der Filmseite aufbauen
 // Baut die Detailansicht. Titel, Beschreibung und Bild-Adresse kommen von außen (TMDB), deshalb werden
 // die Elemente einzeln erzeugt und der Text mit textContent gesetzt, nie mit innerHTML.
 function erzeugeDetail(film) {

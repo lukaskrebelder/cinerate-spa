@@ -1,6 +1,5 @@
-// Ansicht: Mein Konto (US-2, PB-04).
+// Ansicht: Mein Konto
 // Dort kann der Nutzer sein Konto löschen. Vorher gibt es eine Sicherheitsabfrage.
-// Ablauf: "Konto löschen" -> "Bist du sicher?" -> ans BFF senden -> abmelden und Bestätigung zeigen.
 import { holeUserId, loescheToken } from "../auth.js";
 import { loescheKonto } from "../api.js";
 import { zeigeNavigation } from "../navigation.js";

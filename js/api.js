@@ -32,7 +32,8 @@ export function setzeSitzungsHandler(handler) {
   sitzungsHandler = handler;
 }
 
-//Allgemeine Anfrage an das BFF -->cFalls vorhanden, wird das Token im Header mitgegeben
+// KI-Log B35: Erstellt mithilfe von KI (Claude Sonnett 5.5) – Allgemeine Anfrage an das BFF mit Token und Sitzungsbehandlung
+//Allgemeine Anfrage an das BFF --> Falls vorhanden, wird das Token im Header mitgegeben
 // geschützt: true bei Aufrufen, die ein Token brauchen. Ist keines da oder lehnt das BFF es mit 401 ab,
 // wird der Sitzungshandler aufgerufen. Wer solche Aufrufe macht, braucht bei einem Fehler mit
 // Status 401 nichts mehr anzuzeigen, die Anmeldeseite erscheint dann schon.

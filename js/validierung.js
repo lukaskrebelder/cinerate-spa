@@ -1,6 +1,7 @@
-// Prüfregeln für Registrierung und Anmeldung (US-2) im Browser.
+// KI-Log B33: Erstellt mithilfe von KI (Claude Sonnett 5.5) – Prüfregeln für Registrierung und Anmeldung
 // sind reine Funktionen ohne Zugriff auf die Seite, damit sie sich einfach testen lassen.
 // Die Regeln entsprechen absichtlich 1:1 denen im Backend (lib/validation.js). 
+
 // ! Die Prüfungen im Backend bleiben weiterhin die signifikanten, im Prüfungen im SPA dienen 
 // nur der schnellen Rückmeldung im Formular !
 

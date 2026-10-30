@@ -1,4 +1,4 @@
-// Bewertungsbereich der Filmdetailseite (Mithilfe von Claude Sonnett 5.5)
+// KI-Log B40: Erstellt mithilfe von KI (Claude Sonnett 5.5) – Bewertungsbereich der Filmdetailseite
 // Zeigt Durchschnitt, Anzahl und die eigene Bewertung und lässt den Nutzer 1 bis 5 Sterne vergeben.
 // Wer schon bewertet hat, ändert die Bewertung mit einem Klick auf einen anderen Stern 
 import { holeBewertungen, bewerteFilm } from "../api.js";

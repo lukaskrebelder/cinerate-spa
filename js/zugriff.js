@@ -1,4 +1,4 @@
-// Zugriffsschutz der SPA (PB-12).
+// Zugriffsschutz der SPA
 // Manche Seiten sind nur für angemeldete Nutzer (--> diese sind geschützt)
 // Andere Seiten sind nur für Gäste (--> nurGäste),
 // zum Beispiel Anmelden und Registrieren. Wer eine Seite nicht sehen darf, wird umgeleitet.
@@ -16,7 +16,7 @@ export function pruefeZugriff(route, angemeldet) {
   return null;
 }
 
-//--> Mithilfe von CLAUDE Sonnett 5.5
+// KI-Log B38: Erstellt mithilfe von KI (Claude Sonnett 5.5) – Hinweis für die nächste Ansicht zwischenspeichern
 // Ein Hinweis für die nächste Ansicht. Er steht nur im Arbeitsspeicher, weil die Seite beim
 // Wechseln zwischen den Ansichten nicht neu geladen wird.
 let hinweis = null;
