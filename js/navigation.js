@@ -3,9 +3,6 @@
 //--> Gäste sehen "Anmelden" und "Registrieren", angemeldete Nutzer sehen "Filme", "Konto" und "Abmelden".
 import { istAngemeldet } from "./auth.js";
 
-// Die funktion klärt,  Menüpunkte gehören zu welchem Zustand?
-// Ein Punkt mit "route" führt auf eine Seite, ein Punkt mit "aktion" löst etwas aus.
-// Weil die Funktion rein ist, lässt sie sich ohne Browser testen.
 export function bestimmeMenuepunkte(angemeldet) {
   const start = { text: "Start", route: "/" };
 
@@ -26,7 +23,7 @@ export function bestimmeMenuepunkte(angemeldet) {
   ];
 }
 
-// Erzeugt aus einem Menüpunkt den passenden Link (<a>) für die Seite.
+// Erzeugt aus einem Menüpunkt den passenden Link für die Seite.
 function erzeugeLink(punkt) {
   const link = document.createElement("a");
   link.textContent = punkt.text;

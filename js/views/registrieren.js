@@ -1,5 +1,4 @@
-// Ansicht: Registrierung (US-2, Use Case 1).
-// Ablauf: Eingaben wird geprüft -> an das BFF senden -> Bestätigung oder Fehlermeldung anzeigen.
+// Ansicht: Registrierung 
 import { registriereNutzer } from "../api.js";
 import { findeRegistrierungsfehler } from "../validierung.js";
 
@@ -14,6 +13,7 @@ export function uebersetzeFehler(status) {
   return "Die Registrierung ist fehlgeschlagen. Bitte versuche es später noch einmal.";
 }
 
+// KI-Log B34: Erstellt mithilfe von KI (Claude Sonnett 5.5) – Bestätigung nach erfolgreicher Registrierung
 // Ersetzt das Formular durch die Bestätigung nach erfolgreicher Registrierung.
 function zeigeErfolg(container) {
   const box = document.createElement("div");

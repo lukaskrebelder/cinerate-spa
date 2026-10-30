@@ -12,13 +12,10 @@ import { zeigeFuerDich } from "./views/fuerdich.js";
 
 // Der Router entscheidet anhand der Adresse, welche Ansicht gezeigt wird.
 // Die Adresse steht hinter dem # (zB. index.html#/anmelden)
-// --> Die Seite wird also beim Wechsel nicht neu geladen, sondern nur der Inhalt von
-//     <main> getauscht
+// --> Die Seite wird also beim Wechsel nicht neu geladen, sondern nur der Inhalt von <main> getauscht
 
 // Neue Ansichten werden hier eingetragen:
 // const = Konstante --> Variable, dessen Wert nicht mehr geändert werden kann
-// geschuetzt: true --> nur für angemeldete Nutzer, 
-// nurGaeste: true --> nur für Nutzer ohne Anmeldung
 const routen = {
     "/": { ansicht: zeigeStartseite },
     "/registrieren": { ansicht: zeigeRegistrierung, nurGaeste: true },
@@ -32,7 +29,6 @@ const routen = {
 
 // Liest die aktuelle Adresse bzw. Unterseite, auf der sich der Nutzer aktuell befindet
 // Sorgt dafür, dass die Startseite korrekt geladen wird, wenn die Adresse unvollständig ist
-// location-Object enthält Informationen über die aktuelle URL (Adresse)
 function aktuellerPfad() {
     const hash = location.hash.slice(1);    //--> schneidet das # ab: "#/anmelden" --> "/anmelden"
     return hash === "" ? "/" : hash;        //--> BEDINGUNG ? Wert wenn WAHR : Wert wenn FALSCH
@@ -54,7 +50,7 @@ export function findeRoute(pfad) {
         parameter[musterTeil.slice(1)] = decodeURIComponent(teile[i]);
         return true;
       } catch {
-        return false;                                    //--> kaputte Kodierung wie "%E0%A4%A"
+        return false;                                    
       }
     });
     if (passt) return { route, parameter };
@@ -94,7 +90,6 @@ function markiereAktivenLink(pfad) {
 }
 
 // Wechselt zu einer anderen Seite. Ist die Adresse schon die richtige, ändert sich nichts am #
-// und es gäbe kein hashchange, deshalb wird die Ansicht dann selbst neu aufgebaut.
 export function wechsleZu(pfad) {
   if (aktuellerPfad() === pfad) {
     zeigeAnsicht();
@@ -105,7 +100,7 @@ export function wechsleZu(pfad) {
 
 // ROUTER !!!
 //--> Sorgt 1. für den richtigen Inhalt, 2. dass unbekannte Seiten abgefangen und 
-//--> 3. dass das Menü (Hervorhebung etc.) aktualisiert wird
+//--> 3. dass das Menü aktualisiert wird
 export function zeigeAnsicht() {
   const container = document.getElementById("app");
   const pfad = aktuellerPfad();
@@ -121,13 +116,13 @@ export function zeigeAnsicht() {
 
   zeigeNavigation(); //--> Menü wird passend zum Anmeldestatus aufgebaut
   
-  // ?? nimmt die rechte Seite, wenn links nichts gefunden wurde (undefined)
+  // ?? nimmt die rechte Seite, wenn links nichts gefunden wurde
   const ansicht = route?.ansicht ?? zeigeNichtGefunden;   //--> In routen sind alle Pfäde, Pfad wird nun abgeglichen mit denen in Routen
   ansicht(container, parameter);                                   //--> Wenn gefunden, dann wird entsprechende Seite angezeigt
   markiereAktivenLink(route?.menuepunkt ?? pfad);
 }
 
-// Sobald sich die Adresse/URL ändert (hashChange), dann wird die Funktion zeigeAnsicht() aufgerufen
+// Sobald sich die Adresse/URL ändert ( = hashChange), dann wird die Funktion zeigeAnsicht() aufgerufen
 export function starteRouter() {
   window.addEventListener("hashchange", zeigeAnsicht);
   zeigeAnsicht();

@@ -1,9 +1,6 @@
-// Verwaltung des Anmelde-Tokens im Browser.
-// Das Token bekommt die SPA nach dem Login vom Backend. Es ist der "Ausweis" für
+// KI-Log B32: Erstellt mithilfe von KI (Claude Sonnett 5.5) – Verwaltung des Anmelde-Tokens im Browser
+// Das Token bekommt die SPA nach dem Login vom Backend --> Es ist der "Ausweis" für
 // alle geschützten Aufrufe und wird im localStorage des Browsers gespeichert.
-//
-// Jede Funktion nimmt optional einen Speicher entgegen. Im Browser ist das automatisch
-// localStorage, in den Tests ein einfaches Ersatzobjekt (Node hat keinen localStorage).
 
 const SCHLUESSEL = "cinerate_token";
 const SCHLUESSEL_USER_ID = "cinerate_userId";
@@ -25,16 +22,14 @@ export function holeToken(speicher = globalThis.localStorage) {
 }
 
 // Löscht das Token, zum Beispiel beim Abmelden.
-// loescheToken löscht automatisch die ID mit
 export function loescheToken(speicher = globalThis.localStorage) {
   if (!speicher) return;
   speicher.removeItem(SCHLUESSEL);
   speicher.removeItem(SCHLUESSEL_USER_ID);
 }
 
-// Die ID des angemeldeten Nutzers (zB. "u_67"). Sie kommt vom Login und wird gebraucht, um das
-// eigene Konto zu löschen. Sie bleibt ein Text, denn das Backend verlangt genau dieses Format.
-// Eine fehlende oder leere ID wird nicht gespeichert (zB. bei einem älteren Backend), ohne Fehler.
+// Die ID des angemeldeten Nutzer. Sie kommt vom Login und wird gebraucht, um das eigene Konto zu löschen. 
+// Eine fehlende oder leere ID wird nicht gespeichert
 export function speichereUserId(userId, speicher = globalThis.localStorage) {
   if (typeof userId !== "string" || userId.trim() === "") return;
   if (!speicher) return;
@@ -48,7 +43,7 @@ export function holeUserId(speicher = globalThis.localStorage) {
   return typeof userId === "string" && userId !== "" ? userId : null;
 }
 
-// Ist jemand angemeldet? Ja, wenn ein Token gespeichert ist.
+// Angemeldet? --> Ja, wenn ein Token gespAngemeldeteichert ist.
 export function istAngemeldet(speicher = globalThis.localStorage) {
   return holeToken(speicher) !== null;
 }

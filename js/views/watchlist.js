@@ -1,13 +1,11 @@
-// Mithilfe von KI (Claude Sonnett 5.5) erstellt
-// Ansichten zur Watchlist (US-3, PB-21 und PB-22).
-// 1. zeigeWatchlist: die Seite #/watchlist mit allen vorgemerkten Filmen, jeweils mit Knopf zum Entfernen
-// 2. erzeugeWatchlistKnopf: der Knopf auf der Filmdetailseite zum Hinzufügen und Entfernen
+// KI-Log B41: Erstellt mithilfe von KI (Claude Sonnett 5.5) – Ansichten der Watchlist
+// Ansichten der Watchlist 
 import { holeWatchlist, fuegeZurWatchlistHinzu, entferneVonWatchlist } from "../api.js";
 import { erzeugeFilmkarte } from "./filme.js";
 
 const TEXT_LEER = "Deine Watchlist ist leer. Öffne einen Film und wähle „Zur Watchlist hinzufügen“.";
 
-// Steht der Film (movieId) in der Liste, die das BFF geliefert hat? Es gibt keine Abfrage für einen einzelnen Film.
+// Steht der Film in der Liste, die das BFF geliefert hat? Es gibt keine Abfrage für einen einzelnen Film.
 export function istAufWatchlist(filme, movieId) {
   return Array.isArray(filme) && filme.some((film) => Number(film.movieId) === Number(movieId));
 }
