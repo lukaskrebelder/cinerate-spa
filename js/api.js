@@ -168,3 +168,38 @@ export function entferneVonWatchlist(movieId) {
 export function holeVorschlaege() {
   return anfrage("/recommendations", { geschuetzt: true });
 }
+
+// KI-Log B53: Erstellt mithilfe von KI (Claude Sonnett 5.5) – Aufrufe für die Kommentare eines Films
+export function holeKommentare(movieId, seite = 1) {
+  const pfad = `/movies/${encodeURIComponent(movieId)}/comments`;
+  return anfrage(Number.isInteger(seite) && seite > 1 ? `${pfad}?page=${seite}` : pfad, { geschuetzt: true });
+}
+
+// Kommentar schreiben: POST /bff/movies/{movieId}/comments, Body { text }.
+// Antwort 201 { message, commentId }, 400 bei falscher Länge (1 bis 500 Zeichen), 404 bei unbekanntem Film.
+export function schreibeKommentar(movieId, text) {
+  return anfrage(`/movies/${encodeURIComponent(movieId)}/comments`, {
+    methode: "POST",
+    daten: { text },
+    geschuetzt: true,
+  });
+}
+
+// Eigenen Kommentar ändern (PB-33): PUT /bff/movies/{movieId}/comments/{commentId}, Body { text }.
+// Antwort 200 { message }, 403 bei einem fremden Kommentar, 404 wenn es ihn nicht gibt. Die ID hat das Format "c_1042".
+export function aendereKommentar(movieId, commentId, text) {
+  return anfrage(`/movies/${encodeURIComponent(movieId)}/comments/${encodeURIComponent(commentId)}`, {
+    methode: "PUT",
+    daten: { text },
+    geschuetzt: true,
+  });
+}
+
+// Kommentar löschen (PB-35): DELETE /bff/movies/{movieId}/comments/{commentId}.
+// Antwort 200 { message }, 403 wenn der Kommentar nicht dem Nutzer gehört (und er kein Moderator ist), 404 wenn es ihn nicht gibt.
+export function loescheKommentar(movieId, commentId) {
+  return anfrage(`/movies/${encodeURIComponent(movieId)}/comments/${encodeURIComponent(commentId)}`, {
+    methode: "DELETE",
+    geschuetzt: true,
+  });
+}

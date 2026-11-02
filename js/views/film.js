@@ -4,6 +4,7 @@ import { holeFilm } from "../api.js";
 import { istSichereBildUrl } from "./filme.js";
 import { erzeugeBewertung } from "./bewertung.js";
 import { erzeugeWatchlistKnopf } from "./watchlist.js";
+import { erzeugeKommentare } from "./kommentare.js";
 
 // Die ID kommt aus der Adresse und ist damit Text. Gültig ist nur eine ganze Zahl ab 1 (die TMDB-ID).
 export function istGueltigeFilmId(id) {
@@ -132,7 +133,7 @@ export function zeigeFilm(container, parameter = {}) {
     try {
       const film = await holeFilm(movieId);
       statusText.textContent = "";
-      filmBox.replaceChildren(erzeugeDetail(film));
+      filmBox.replaceChildren(erzeugeDetail(film), erzeugeKommentare(film.movieId));
     } catch (fehler) {
       // Bei 401 hat der Sitzungshandler schon zur Anmeldung gewechselt, hier ist nichts mehr zu zeigen
       if (fehler.status === 401) return;
