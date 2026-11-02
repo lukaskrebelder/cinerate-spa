@@ -565,3 +565,88 @@ input:focus-visible {
 .hinweis a {
   font-weight: 600;
 }
+
+/* Kommentare auf der Detailseite: Eingabe, Liste und Knöpfe zum Bearbeiten und Löschen */
+.kommentare {
+  margin: 1rem 0;
+  padding: 1.5rem;
+  background: var(--farbe-weiss);
+  border: 1px solid var(--farbe-mint);
+  border-radius: var(--radius);
+}
+
+.kommentare h2 {
+  margin-top: 0;
+}
+
+.kommentar-formular label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-weight: 600;
+}
+
+.kommentar-formular textarea,
+.kommentar-bearbeiten {
+  display: block;
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--farbe-akzent);
+  border-radius: var(--radius);
+  font: inherit;
+  color: var(--farbe-text);
+  resize: vertical;
+}
+
+.kommentar-zaehler {
+  margin: 0.25rem 0 0.75rem;
+  font-size: 0.85rem;
+  text-align: right;
+}
+
+.kommentar-liste {
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.kommentar {
+  padding: 0.9rem 0;
+  border-top: 1px solid var(--farbe-mint);
+}
+
+.kommentar-kopf {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.75rem;
+}
+
+.kommentar-zeit {
+  font-size: 0.85rem;
+}
+
+/* Zeilenumbrüche aus dem Eingabefeld bleiben erhalten, sehr lange Wörter brechen um */
+.kommentar-text {
+  margin: 0.35rem 0 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.kommentar-aktionen {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+}
+
+.button.klein {
+  padding: 0.35rem 0.9rem;
+  font-size: 0.9rem;
+}
+
+.kommentare .button:disabled,
+.kommentare textarea:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
