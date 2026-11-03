@@ -8,7 +8,9 @@ import {
   formatiereZeichenzaehler,
   formatiereZeitpunkt,
   formatiereKommentarzeit,
+  istEigenerKommentar,
   bestimmeKommentarrechte,
+  formuliereLoeschfrage,
   bestimmeZielseite,
   uebersetzeKommentarfehler,
 } from "../js/views/kommentare.js";
@@ -114,6 +116,48 @@ test("bestimmeKommentarrechte verbietet alles, wenn die eigene ID unbekannt ist"
 
 test("bestimmeKommentarrechte erkennt einen Kommentar ohne Autor-ID nicht als eigenen", () => {
   assert.deepStrictEqual(bestimmeKommentarrechte({}, "u_58"), { aendern: false, loeschen: false });
+});
+
+test("bestimmeKommentarrechte erlaubt einem Moderator, fremde Kommentare zu löschen, aber nicht zu ändern", () => {
+  assert.deepStrictEqual(bestimmeKommentarrechte({ userId: "u_58" }, "u_7", "Moderator"), { aendern: false, loeschen: true });
+});
+
+test("bestimmeKommentarrechte erlaubt einem Moderator bei eigenen Kommentaren beides", () => {
+  assert.deepStrictEqual(bestimmeKommentarrechte({ userId: "u_7" }, "u_7", "Moderator"), { aendern: true, loeschen: true });
+});
+
+test("bestimmeKommentarrechte gibt einem normalen Nutzer oder einer unbekannten Rolle keine Moderatorrechte", () => {
+  for (const rolle of ["Nutzer", null, undefined, "", "moderator", "Admin"]) {
+    assert.deepStrictEqual(bestimmeKommentarrechte({ userId: "u_58" }, "u_7", rolle), { aendern: false, loeschen: false });
+  }
+});
+
+//--> istEigenerKommentar
+
+test("istEigenerKommentar vergleicht die Autor-ID mit der eigenen ID", () => {
+  assert.strictEqual(istEigenerKommentar({ userId: "u_58" }, "u_58"), true);
+  assert.strictEqual(istEigenerKommentar({ userId: "u_58" }, "u_7"), false);
+  assert.strictEqual(istEigenerKommentar({ userId: "u_58" }, null), false);
+  assert.strictEqual(istEigenerKommentar({}, "u_58"), false);
+});
+
+//--> formuliereLoeschfrage
+
+test("formuliereLoeschfrage fragt bei einem eigenen Kommentar ohne Hinweis auf Moderatoren", () => {
+  assert.strictEqual(formuliereLoeschfrage({ userId: "u_58", firstName: "Nico" }, "u_58"), "Kommentar wirklich löschen?");
+});
+
+test("formuliereLoeschfrage nennt bei einem fremden Kommentar den Autor und die Moderatorrolle", () => {
+  assert.strictEqual(
+    formuliereLoeschfrage({ userId: "u_7", firstName: "Lukas" }, "u_58"),
+    "Kommentar von Lukas als Moderator löschen?"
+  );
+});
+
+test("formuliereLoeschfrage kommt bei einem fremden Kommentar ohne Namen ohne Autor aus", () => {
+  for (const firstName of [undefined, null, "", "   "]) {
+    assert.strictEqual(formuliereLoeschfrage({ userId: "u_7", firstName }, "u_58"), "Kommentar als Moderator löschen?");
+  }
 });
 
 //--> bestimmeZielseite
