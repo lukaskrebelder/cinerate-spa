@@ -1,7 +1,7 @@
 // KI-Log B51: Erstellt mithilfe von KI (Claude Sonnett 5.5) – Hilfsfunktionen und Fehlertexte der Kommentare
 // Kommentare zu einem Film: schreiben, lesen (20 pro Seite, neueste zuerst) sowie eigene Kommentare bearbeiten und löschen.
 import { holeKommentare, schreibeKommentar, aendereKommentar, loescheKommentar } from "../api.js";
-import { holeUserId } from "../auth.js";
+import { holeUserId, holeRolle, ROLLE_MODERATOR } from "../auth.js";
 import { bestimmeSeitenanzeige } from "./filme.js";
 
 export const MAX_KOMMENTAR_LAENGE = 500;
@@ -51,11 +51,23 @@ export function formatiereKommentarzeit(kommentar) {
   return geaendert === "" ? geschrieben : `${geschrieben} (bearbeitet am ${geaendert})`;
 }
 
-// Was darf der Nutzer mit diesem Kommentar tun? Bearbeiten und Löschen darf nur der Autor.
-// Die ID des angemeldeten Nutzers (zB. "u_58") kommt vom Login, siehe auth.js.
-export function bestimmeKommentarrechte(kommentar, userId) {
-  const eigener = typeof userId === "string" && userId !== "" && kommentar.userId === userId;
-  return { aendern: eigener, loeschen: eigener };
+// Gehört der Kommentar dem angemeldeten Nutzer? Die ID (zB. "u_58") kommt vom Login, siehe auth.js.
+export function istEigenerKommentar(kommentar, userId) {
+  return typeof userId === "string" && userId !== "" && kommentar.userId === userId;
+}
+
+// Was darf der Nutzer mit diesem Kommentar tun? Bearbeiten darf nur der Autor, auch ein Moderator nicht (PB-33).
+// Löschen darf der Autor und ein Moderator (PB-34, PB-35). Das Backend prüft beides bei jedem Aufruf noch einmal.
+export function bestimmeKommentarrechte(kommentar, userId, rolle) {
+  const eigener = istEigenerKommentar(kommentar, userId);
+  return { aendern: eigener, loeschen: eigener || rolle === ROLLE_MODERATOR };
+}
+
+// Text der Rückfrage vor dem Löschen. Bei einem fremden Kommentar (nur Moderatoren) steht der Name des Autors dabei.
+export function formuliereLoeschfrage(kommentar, userId) {
+  if (istEigenerKommentar(kommentar, userId)) return "Kommentar wirklich löschen?";
+  const name = typeof kommentar.firstName === "string" && kommentar.firstName.trim() !== "" ? ` von ${kommentar.firstName.trim()}` : "";
+  return `Kommentar${name} als Moderator löschen?`;
 }
 
 // Wird nach dem Löschen die letzte Seite leer, geht es eine Seite zurück. Sonst bleibt es bei der Seite.
@@ -141,6 +153,7 @@ export function erzeugeKommentare(movieId) {
   beschriftung.htmlFor = eingabeFeld.id;
 
   const userId = holeUserId();   // null bei einer älteren Anmeldung: Dann gibt es keine Knöpfe zum Bearbeiten
+  const rolle = holeRolle();     // "Moderator" darf zusätzlich fremde Kommentare löschen, sonst null oder "Nutzer"
   let seite = 1;
   let gesamtSeiten = 1;
   let anfrageNummer = 0;         // erkennt veraltete Antworten, wenn schnell mehrmals geladen wird
@@ -168,7 +181,8 @@ export function erzeugeKommentare(movieId) {
     }
   }
 
-  // Ein Kommentar der Liste. Eigene Kommentare haben Knöpfe zum Bearbeiten und Löschen.
+    // Ein Kommentar der Liste. Eigene Kommentare haben Knöpfe zum Bearbeiten und Löschen, 
+    // Moderatoren sehen bei fremden nur Löschen.
   function erzeugeEintrag(kommentar) {
     const eintrag = document.createElement("li");
     eintrag.className = "kommentar";
@@ -188,7 +202,7 @@ export function erzeugeKommentare(movieId) {
 
     eintrag.append(kopf, text);
 
-    const rechte = bestimmeKommentarrechte(kommentar, userId);
+    const rechte = bestimmeKommentarrechte(kommentar, userId, rolle);
     if (!rechte.aendern && !rechte.loeschen) return eintrag;
 
     const aktionen = document.createElement("div");
@@ -196,16 +210,16 @@ export function erzeugeKommentare(movieId) {
     eintrag.append(aktionen);
 
     function zeigeAktionen() {
-      aktionen.replaceChildren(
-        erzeugeKnopf("Bearbeiten", "klein", zeigeBearbeitung),
-        erzeugeKnopf("Löschen", "klein gefahr", zeigeLoeschfrage)
-      );
+      const knoepfe = [];
+      if (rechte.aendern) knoepfe.push(erzeugeKnopf("Bearbeiten", "klein", zeigeBearbeitung));
+      if (rechte.loeschen) knoepfe.push(erzeugeKnopf("Löschen", "klein gefahr", zeigeLoeschfrage));
+      aktionen.replaceChildren(...knoepfe);
     }
 
     // Löschen mit Rückfrage, weil ein gelöschter Kommentar nicht wiederkommt
     function zeigeLoeschfrage() {
       const frage = document.createElement("span");
-      frage.textContent = "Kommentar wirklich löschen?";
+            frage.textContent = formuliereLoeschfrage(kommentar, userId);
       aktionen.replaceChildren(
         frage,
         erzeugeKnopf("Ja, löschen", "klein gefahr", loesche),

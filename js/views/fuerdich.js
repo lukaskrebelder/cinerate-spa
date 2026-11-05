@@ -1,4 +1,4 @@
-// Mithilfe von KI (Claude Sonnet 5.5) aufgrund hoher Komplexität und Zeitaufwand erstellt
+// KI-Log B48: Erstellt mithilfe von KI (Claude Sonnett 5.5) – Seite Für dich mit Filmvorschlägen
 // Ansicht: Für dich 
 // Zeigt bis zu 10 Filmvorschläge, die zu den Bewertungen des Nutzers passen. Das Backend wählt sie über das
 // Lieblingsgenre aus: Das ist das Genre, in dem der Nutzer die meisten Filme mit 4 oder 5 Sternen bewertet hat.

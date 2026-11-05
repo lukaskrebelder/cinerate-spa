@@ -101,6 +101,7 @@ export function meldeAb() {
 }
 
 // Mithilfe von CLAUDE Sonnet 5.5
+// KI-Log B47: Erstellt mithilfe von KI (Claude Sonnett 5.5) – Aufbau der Such-Adresse für die Filmsuche
 // Baut den Pfad für die Filmsuche.
 // --> Nur ausgefüllte Felder kommen in die Adresse.
 // --> URLSearchParams kümmert sich um Leerzeichen und Sonderzeichen (zB. "Science Fiction").

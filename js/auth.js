@@ -4,6 +4,11 @@
 
 const SCHLUESSEL = "cinerate_token";
 const SCHLUESSEL_USER_ID = "cinerate_userId";
+const SCHLUESSEL_ROLLE = "cinerate_rolle";
+
+// Die beiden Rollen, die das Backend kennt.
+export const ROLLE_NUTZER = "Nutzer";
+export const ROLLE_MODERATOR = "Moderator";
 
 // Speichert das Token. Ein leeres oder ungültiges Token wird nicht gespeichert.
 export function speichereToken(token, speicher = globalThis.localStorage) {
@@ -26,6 +31,7 @@ export function loescheToken(speicher = globalThis.localStorage) {
   if (!speicher) return;
   speicher.removeItem(SCHLUESSEL);
   speicher.removeItem(SCHLUESSEL_USER_ID);
+  speicher.removeItem(SCHLUESSEL_ROLLE);
 }
 
 // Die ID des angemeldeten Nutzer. Sie kommt vom Login und wird gebraucht, um das eigene Konto zu löschen. 
@@ -41,6 +47,25 @@ export function holeUserId(speicher = globalThis.localStorage) {
   if (!speicher) return null;
   const userId = speicher.getItem(SCHLUESSEL_USER_ID);
   return typeof userId === "string" && userId !== "" ? userId : null;
+}
+
+// Die Rolle des angemeldeten Nutzers ("Nutzer" oder "Moderator"). Sie kommt vom Login.
+// Die SPA nutzt sie nur, um die passenden Knöpfe zu zeigen. Ob etwas erlaubt ist, prüft das Backend bei jedem Aufruf neu.
+// Fehlt die Rolle oder ist sie unbekannt, wird eine alte Rolle gelöscht, damit nie die Rolle eines früheren Logins bleibt.
+export function speichereRolle(rolle, speicher = globalThis.localStorage) {
+  if (!speicher) return;
+  if (rolle === ROLLE_NUTZER || rolle === ROLLE_MODERATOR) {
+    speicher.setItem(SCHLUESSEL_ROLLE, rolle);
+  } else {
+    speicher.removeItem(SCHLUESSEL_ROLLE);
+  }
+}
+
+// Liefert die gespeicherte Rolle oder null (zum Beispiel bei einer älteren Anmeldung ohne Rolle).
+export function holeRolle(speicher = globalThis.localStorage) {
+  if (!speicher) return null;
+  const rolle = speicher.getItem(SCHLUESSEL_ROLLE);
+  return rolle === ROLLE_NUTZER || rolle === ROLLE_MODERATOR ? rolle : null;
 }
 
 // Angemeldet? --> Ja, wenn ein Token gespAngemeldeteichert ist.
